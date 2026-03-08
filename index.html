@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Banvier — 서울 호텔 연회장</title>
+<title>Banvier — 연회장 비교 플랫폼</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2318160f'/><text x='7' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' fill='%23c8a96e'>B</text><text x='17' y='22' font-family='Georgia,serif' font-size='13' font-style='italic' fill='%23c8a96e'>v</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=3mliteco35"></script>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=3mliteco35"></script>
 
 <!--
   ══════════════════════════════════════════════════════════════
@@ -597,7 +598,7 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
     <span class="logo-wm">Ban<em>vier</em></span>
     <span class="logo-div"></span>
     <span class="logo-tag ko">연회장 비교 · 예약 플랫폼</span>
-    <span class="logo-tag en">Venue Research & Booking</span>
+    <span class="logo-tag en">Banquet Comparison Platform</span>
   </a>
   <div class="hdr-r">
     <div class="lang-tog">
@@ -606,7 +607,7 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
     </div>
     <button class="hdr-btn ko" onclick="openQuote(null)">호텔 등록 문의</button>
     <button class="hdr-btn en" onclick="openQuote(null)">List Your Venue</button>
-    <button class="login-btn" id="loginBtn" onclick="openLogin()">
+    <button class="login-btn" id="loginBtn" onclick="curUser?openMyPage():openLogin()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span class="ko">로그인</span><span class="en">Login</span>
     </button>
@@ -722,7 +723,6 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
       <select class="sort-sel" id="sortSel" onchange="run()">
         <option value="rec" class="ko">추천순</option>
         <option value="rec" class="en">Recommended</option>
-        <option value="price">가격 낮은순</option>
         <option value="cap">수용인원순</option>
         <option value="star">성급 높은순</option>
       </select>
@@ -789,33 +789,33 @@ const H = [
   {id:1,e:'🏛️',star:5,
    name:'그랜드 인터컨티넨탈 서울 파르나스',nameEn:'Grand InterContinental Seoul Parnas',
    rgn:'강남',addr:'강남구 테헤란로',addrEn:'Teheran-ro, Gangnam-gu',
-   maxCap:1200,minKRW:150,
-   tags:['초대형','VVIP','강남'],tagsEn:['Mega','VVIP','Gangnam'],
+   maxCap:1200,minKRW:0,
+   tags:['초대형','MICE특화','강남'],tagsEn:['Mega','MICE','Gangnam'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],
    pin:{x:62,y:52},
-   metro:'삼성역 5번 출구 3분',metroEn:'Samseong Stn Exit 5, 3min',
+   metro:'삼성역·봉은사역 직결 (2·9호선)',metroEn:'Samseong/Bongeunsa Stn, Direct',
    phone:'02-555-5656',email:'banquet@icparnas.co.kr',
    venues:[
-     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 1,200명',capEn:'Up to 1,200',price:'600만원~',priceEn:'From ₩6M'},
-     {name:'파르나스홀',nameEn:'Parnas Hall',cap:'최대 400명',capEn:'Up to 400',price:'250만원~',priceEn:'From ₩2.5M'},
-     {name:'다이아몬드룸',nameEn:'Diamond Room',cap:'최대 150명',capEn:'Up to 150',price:'80만원~',priceEn:'From ₩800K'},
-     {name:'크리스탈룸',nameEn:'Crystal Room',cap:'최대 60명',capEn:'Up to 60',price:'35만원~',priceEn:'From ₩350K'},
+     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 1,200명',capEn:'Up to 1,200'},
+     {name:'파르나스홀',nameEn:'Parnas Hall',cap:'최대 400명',capEn:'Up to 400'},
+     {name:'다이아몬드룸',nameEn:'Diamond Room',cap:'최대 150명',capEn:'Up to 150'},
+     {name:'크리스탈룸',nameEn:'Crystal Room',cap:'최대 60명',capEn:'Up to 60'},
    ],
    am:['전담 케이터링','동시통역 시설','최첨단 AV','발레파킹','웨딩 전담팀','야외테라스'],
    amEn:['Dedicated Catering','Simultaneous Interpretation','Premium AV','Valet Parking','Wedding Team','Outdoor Terrace'],
   },
   {id:2,e:'🌸',star:5,
    name:'롯데호텔 서울',nameEn:'Lotte Hotel Seoul',
-   rgn:'종로',addr:'중구 을지로',addrEn:'Euljiro, Jung-gu',
-   maxCap:900,minKRW:120,
+   rgn:'중구',addr:'중구 을지로',addrEn:'Euljiro, Jung-gu',
+   maxCap:900,minKRW:0,
    tags:['도심','역세권','전통'],tagsEn:['City Center','Subway','Heritage'],
    types:['만찬·연회','기업행사'],pin:{x:28,y:36},
    metro:'을지로입구역 8번 직결',metroEn:'Euljiro 1-ga Stn Exit 8, Direct',
    phone:'02-771-1000',email:'banquet@lottehotel.com',
    venues:[
-     {name:'크리스탈 볼룸',nameEn:'Crystal Ballroom',cap:'최대 900명',capEn:'Up to 900',price:'500만원~',priceEn:'From ₩5M'},
-     {name:'에메랄드룸',nameEn:'Emerald Room',cap:'최대 300명',capEn:'Up to 300',price:'160만원~',priceEn:'From ₩1.6M'},
-     {name:'루비룸',nameEn:'Ruby Room',cap:'최대 100명',capEn:'Up to 100',price:'60만원~',priceEn:'From ₩600K'},
+     {name:'크리스탈 볼룸',nameEn:'Crystal Ballroom',cap:'최대 900명',capEn:'Up to 900'},
+     {name:'에메랄드룸',nameEn:'Emerald Room',cap:'최대 300명',capEn:'Up to 300'},
+     {name:'루비룸',nameEn:'Ruby Room',cap:'최대 100명',capEn:'Up to 100'},
    ],
    am:['한식 케이터링','VIP 라운지','발레파킹','동시통역','야외정원'],
    amEn:['Korean Catering','VIP Lounge','Valet Parking','Interpretation','Garden'],
@@ -823,15 +823,15 @@ const H = [
   {id:3,e:'🌊',star:5,
    name:'콘래드 서울',nameEn:'Conrad Seoul',
    rgn:'여의도',addr:'영등포구 여의도',addrEn:'Yeouido, Yeongdeungpo-gu',
-   maxCap:800,minKRW:180,
+   maxCap:800,minKRW:0,
    tags:['한강뷰','금융가','비즈니스'],tagsEn:['Han River','Finance','Business'],
    types:['기업행사','만찬·연회'],pin:{x:16,y:56},
    metro:'여의도역 3번 5분',metroEn:'Yeouido Stn Exit 3, 5min',
    phone:'02-6137-7000',email:'seoul.banquet@conradhotels.com',
    venues:[
-     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 800명',capEn:'Up to 800',price:'450만원~',priceEn:'From ₩4.5M'},
-     {name:'한강룸',nameEn:'Han River Room',cap:'최대 200명',capEn:'Up to 200',price:'130만원~',priceEn:'From ₩1.3M'},
-     {name:'미팅룸 A',nameEn:'Meeting Room A',cap:'최대 50명',capEn:'Up to 50',price:'30만원~',priceEn:'From ₩300K'},
+     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 800명',capEn:'Up to 800'},
+     {name:'한강룸',nameEn:'Han River Room',cap:'최대 200명',capEn:'Up to 200'},
+     {name:'미팅룸 A',nameEn:'Meeting Room A',cap:'최대 50명',capEn:'Up to 50'},
    ],
    am:['한강 파노라마','금융가 인접','동시통역','케이터링','주차'],
    amEn:['Han River View','Finance District','Interpretation','Catering','Parking'],
@@ -839,15 +839,15 @@ const H = [
   {id:4,e:'🌙',star:5,
    name:'시그니엘 서울',nameEn:'Signiel Seoul',
    rgn:'송파',addr:'송파구 신천동',addrEn:'Sincheon-dong, Songpa-gu',
-   maxCap:600,minKRW:200,
+   maxCap:600,minKRW:0,
    tags:['롯데타워','초고층','랜드마크'],tagsEn:['Lotte Tower','Sky High','Landmark'],
    types:['웨딩·돌잔치','만찬·연회','기업행사'],pin:{x:76,y:66},
-   metro:'잠실역 11번 직결',metroEn:'Jamsil Stn Exit 11, Direct',
+   metro:'잠실역 직결 (2·8호선)',metroEn:'Jamsil Stn, Direct (Line 2·8)',
    phone:'02-3213-1000',email:'banquet@signielseoul.com',
    venues:[
-     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 600명',capEn:'Up to 600',price:'400만원~',priceEn:'From ₩4M'},
-     {name:'클라우드룸',nameEn:'Cloud Room',cap:'최대 200명',capEn:'Up to 200',price:'150만원~',priceEn:'From ₩1.5M'},
-     {name:'스카이라운지',nameEn:'Sky Lounge',cap:'최대 80명',capEn:'Up to 80',price:'70만원~',priceEn:'From ₩700K'},
+     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 600명',capEn:'Up to 600'},
+     {name:'클라우드룸',nameEn:'Cloud Room',cap:'최대 200명',capEn:'Up to 200'},
+     {name:'스카이라운지',nameEn:'Sky Lounge',cap:'최대 80명',capEn:'Up to 80'},
    ],
    am:['초고층 전망','미슐랭 케이터링','발레파킹','사진패키지','VIP 웰컴'],
    amEn:['Sky View','Michelin Catering','Valet Parking','Photo Package','VIP Welcome'],
@@ -855,15 +855,15 @@ const H = [
   {id:5,e:'🏰',star:5,
    name:'포시즌스 호텔 서울',nameEn:'Four Seasons Hotel Seoul',
    rgn:'종로',addr:'종로구 새문안로',addrEn:'Saemoonan-ro, Jongno-gu',
-   maxCap:500,minKRW:160,
+   maxCap:500,minKRW:0,
    tags:['광화문','럭셔리','갤러리'],tagsEn:['Gwanghwamun','Luxury','Gallery'],
    types:['만찬·연회','기업행사','웨딩·돌잔치'],pin:{x:36,y:26},
    metro:'광화문역 7번 3분',metroEn:'Gwanghwamun Stn Exit 7, 3min',
    phone:'02-6388-5000',email:'banquet.seoul@fourseasons.com',
    venues:[
-     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 500명',capEn:'Up to 500',price:'350만원~',priceEn:'From ₩3.5M'},
-     {name:'테라스룸',nameEn:'Terrace Room',cap:'최대 120명',capEn:'Up to 120',price:'90만원~',priceEn:'From ₩900K'},
-     {name:'아트리움',nameEn:'Atrium',cap:'최대 80명',capEn:'Up to 80',price:'60만원~',priceEn:'From ₩600K'},
+     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 500명',capEn:'Up to 500'},
+     {name:'테라스룸',nameEn:'Terrace Room',cap:'최대 120명',capEn:'Up to 120'},
+     {name:'아트리움',nameEn:'Atrium',cap:'최대 80명',capEn:'Up to 80'},
    ],
    am:['광화문 뷰','갤러리 공간','고급 AV','VIP 전용 입구','미슐랭 다이닝'],
    amEn:['Palace View','Gallery Space','Premium AV','VIP Entrance','Michelin Dining'],
@@ -871,15 +871,15 @@ const H = [
   {id:6,e:'🌺',star:5,
    name:'그랜드 하얏트 서울',nameEn:'Grand Hyatt Seoul',
    rgn:'용산',addr:'용산구 한남동',addrEn:'Hannam-dong, Yongsan-gu',
-   maxCap:700,minKRW:130,
+   maxCap:700,minKRW:0,
    tags:['남산뷰','한남','야외'],tagsEn:['Namsan View','Hannam','Outdoor'],
    types:['기업행사','만찬·연회'],pin:{x:48,y:40},
    metro:'한강진역 2번 7분',metroEn:'Hangangjin Stn Exit 2, 7min',
    phone:'02-797-1234',email:'seoul.events@hyatt.com',
    venues:[
-     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 700명',capEn:'Up to 700',price:'380만원~',priceEn:'From ₩3.8M'},
-     {name:'가든파티오',nameEn:'Garden Patio',cap:'최대 300명',capEn:'Up to 300',price:'180만원~',priceEn:'From ₩1.8M'},
-     {name:'남산룸',nameEn:'Namsan Room',cap:'최대 100명',capEn:'Up to 100',price:'55만원~',priceEn:'From ₩550K'},
+     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 700명',capEn:'Up to 700'},
+     {name:'가든파티오',nameEn:'Garden Patio',cap:'최대 300명',capEn:'Up to 300'},
+     {name:'남산룸',nameEn:'Namsan Room',cap:'최대 100명',capEn:'Up to 100'},
    ],
    am:['남산 자연뷰','야외가든','대규모주차','케이터링','피트니스'],
    amEn:['Namsan View','Outdoor Garden','Large Parking','Catering','Fitness'],
@@ -887,14 +887,14 @@ const H = [
   {id:7,e:'✨',star:5,
    name:'파크 하얏트 서울',nameEn:'Park Hyatt Seoul',
    rgn:'강남',addr:'강남구 테헤란로',addrEn:'Teheran-ro, Gangnam-gu',
-   maxCap:350,minKRW:140,
+   maxCap:350,minKRW:0,
    tags:['프라이빗','모던','강남'],tagsEn:['Private','Modern','Gangnam'],
    types:['만찬·연회','기업행사'],pin:{x:58,y:60},
    metro:'삼성역 6번 5분',metroEn:'Samseong Stn Exit 6, 5min',
    phone:'02-2016-1234',email:'seoul.park@hyatt.com',
    venues:[
-     {name:'파크홀',nameEn:'Park Hall',cap:'최대 350명',capEn:'Up to 350',price:'220만원~',priceEn:'From ₩2.2M'},
-     {name:'라이브러리룸',nameEn:'Library Room',cap:'최대 80명',capEn:'Up to 80',price:'65만원~',priceEn:'From ₩650K'},
+     {name:'파크홀',nameEn:'Park Hall',cap:'최대 350명',capEn:'Up to 350'},
+     {name:'라이브러리룸',nameEn:'Library Room',cap:'최대 80명',capEn:'Up to 80'},
    ],
    am:['모던 인테리어','프라이빗 다이닝','고급 AV','발레파킹'],
    amEn:['Modern Interior','Private Dining','Premium AV','Valet Parking'],
@@ -902,15 +902,15 @@ const H = [
   {id:8,e:'🎭',star:5,
    name:'페어몬트 앰배서더 서울',nameEn:'Fairmont Ambassador Seoul',
    rgn:'여의도',addr:'영등포구 여의도',addrEn:'Yeouido, Yeongdeungpo-gu',
-   maxCap:1000,minKRW:170,
+   maxCap:1000,minKRW:0,
    tags:['여의도','대형','신규'],tagsEn:['Yeouido','Large','New'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:10,y:48},
    metro:'여의나루역 2번 4분',metroEn:'Yeoui Naru Stn Exit 2, 4min',
    phone:'02-2004-1234',email:'banquet.seoul@fairmont.com',
    venues:[
-     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 1,000명',capEn:'Up to 1,000',price:'550만원~',priceEn:'From ₩5.5M'},
-     {name:'여의도룸',nameEn:'Yeouido Room',cap:'최대 300명',capEn:'Up to 300',price:'170만원~',priceEn:'From ₩1.7M'},
-     {name:'오크룸',nameEn:'Oak Room',cap:'최대 80명',capEn:'Up to 80',price:'50만원~',priceEn:'From ₩500K'},
+     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 1,000명',capEn:'Up to 1,000'},
+     {name:'여의도룸',nameEn:'Yeouido Room',cap:'최대 300명',capEn:'Up to 300'},
+     {name:'오크룸',nameEn:'Oak Room',cap:'최대 80명',capEn:'Up to 80'},
    ],
    am:['한강뷰','최신설비','전담코디','동시통역','주차'],
    amEn:['Han River View','Modern Facilities','Dedicated Coordinator','Interpretation','Parking'],
@@ -918,15 +918,15 @@ const H = [
   {id:9,e:'🌿',star:5,
    name:'JW 메리어트 동대문 스퀘어 서울',nameEn:'JW Marriott Dongdaemun Square Seoul',
    rgn:'종로',addr:'종로구 청계천로',addrEn:'Cheonggyecheon-ro, Jongno-gu',
-   maxCap:450,minKRW:110,
+   maxCap:450,minKRW:0,
    tags:['동대문','청계천','접근성'],tagsEn:['Dongdaemun','Cheonggyecheon','Accessible'],
    types:['기업행사','만찬·연회'],pin:{x:40,y:30},
    metro:'동대문역사문화공원역 직결',metroEn:'DDP Stn, Direct',
    phone:'02-2276-3000',email:'eventsSEO@marriott.com',
    venues:[
-     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 450명',capEn:'Up to 450',price:'280만원~',priceEn:'From ₩2.8M'},
-     {name:'미팅홀',nameEn:'Meeting Hall',cap:'최대 150명',capEn:'Up to 150',price:'85만원~',priceEn:'From ₩850K'},
-     {name:'세미나룸',nameEn:'Seminar Room',cap:'최대 40명',capEn:'Up to 40',price:'25만원~',priceEn:'From ₩250K'},
+     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 450명',capEn:'Up to 450'},
+     {name:'미팅홀',nameEn:'Meeting Hall',cap:'최대 150명',capEn:'Up to 150'},
+     {name:'세미나룸',nameEn:'Seminar Room',cap:'최대 40명',capEn:'Up to 40'},
    ],
    am:['청계천 뷰','패션가 인접','케이터링','AV장비','주차'],
    amEn:['Stream View','Fashion District','Catering','AV Equipment','Parking'],
@@ -934,14 +934,15 @@ const H = [
   {id:10,e:'🔮',star:5,
    name:'소피텔 앰배서더 서울',nameEn:'Sofitel Ambassador Seoul',
    rgn:'강남',addr:'강남구 도산대로',addrEn:'Dosan-daero, Gangnam-gu',
-   maxCap:300,minKRW:95,
-   tags:['프렌치','청담','고급'],tagsEn:['French','Cheongdam','Luxury'],
-   types:['만찬·연회','웨딩·돌잔치'],pin:{x:66,y:57},
+   maxCap:300,minKRW:0,
+   tags:['프렌치럭셔리','청담','비즈니스'],tagsEn:['French Luxury','Cheongdam','Business'],
+   types:['만찬·연회','기업행사','웨딩·돌잔치'],pin:{x:66,y:57},
    metro:'압구정로데오역 4번 5분',metroEn:'Apgujeong Rodeo Stn Exit 4, 5min',
    phone:'02-2191-8000',email:'h3562-banquet@sofitel.com',
    venues:[
-     {name:'르 그랑 블루',nameEn:'Le Grand Bleu',cap:'최대 300명',capEn:'Up to 300',price:'200만원~',priceEn:'From ₩2M'},
-     {name:'살롱 파리',nameEn:'Salon Paris',cap:'최대 80명',capEn:'Up to 80',price:'70만원~',priceEn:'From ₩700K'},
+     {name:'그랜드볼룸 방돔',nameEn:'Grand Ballroom Vendôme',cap:'최대 300명',capEn:'Up to 300'},
+     {name:'바스티유룸',nameEn:'Bastille Room',cap:'최대 100명',capEn:'Up to 100'},
+     {name:'콩코드룸',nameEn:'Concorde Room',cap:'소규모 VIP',capEn:'Small VIP'},
    ],
    am:['프랑스식 케이터링','럭셔리 인테리어','프라이빗 라운지','와인 셀러'],
    amEn:['French Catering','Luxury Interiors','Private Lounge','Wine Cellar'],
@@ -949,14 +950,14 @@ const H = [
   {id:11,e:'🌅',star:4,
    name:'나인트리 프리미어 로카우스 서울 용산',nameEn:'Nine Tree Premier Locaus Yongsan',
    rgn:'용산',addr:'용산구 한강대로',addrEn:'Hangang-daero, Yongsan-gu',
-   maxCap:250,minKRW:60,
+   maxCap:250,minKRW:0,
    tags:['가성비','용산','4성급'],tagsEn:['Value','Yongsan','4-Star'],
    types:['기업행사','만찬·연회'],pin:{x:33,y:50},
    metro:'용산역 1번 5분',metroEn:'Yongsan Stn Exit 1, 5min',
    phone:'02-6901-9000',email:'event@ninetreehotel.com',
    venues:[
-     {name:'그랜드홀',nameEn:'Grand Hall',cap:'최대 250명',capEn:'Up to 250',price:'100만원~',priceEn:'From ₩1M'},
-     {name:'로카우스룸',nameEn:'Locaus Room',cap:'최대 80명',capEn:'Up to 80',price:'40만원~',priceEn:'From ₩400K'},
+     {name:'그랜드홀',nameEn:'Grand Hall',cap:'최대 250명',capEn:'Up to 250'},
+     {name:'로카우스룸',nameEn:'Locaus Room',cap:'최대 80명',capEn:'Up to 80'},
    ],
    am:['용산역 인접','현대적 인테리어','케이터링','주차'],
    amEn:['Near Yongsan Station','Modern Interior','Catering','Parking'],
@@ -964,14 +965,14 @@ const H = [
   {id:12,e:'🎋',star:4,
    name:'롯데시티호텔 마포',nameEn:'Lotte City Hotel Mapo',
    rgn:'마포',addr:'마포구 공항대로',addrEn:'Gonghang-daero, Mapo-gu',
-   maxCap:200,minKRW:50,
+   maxCap:200,minKRW:0,
    tags:['홍대','마포','4성급'],tagsEn:['Hongdae','Mapo','4-Star'],
    types:['기업행사','웨딩·돌잔치'],pin:{x:12,y:34},
    metro:'홍대입구역 직결',metroEn:'Hongdae Stn, Direct',
    phone:'02-6959-1000',email:'banquet@lottecitymapo.com',
    venues:[
-     {name:'컨벤션홀',nameEn:'Convention Hall',cap:'최대 200명',capEn:'Up to 200',price:'80만원~',priceEn:'From ₩800K'},
-     {name:'미팅룸',nameEn:'Meeting Room',cap:'최대 50명',capEn:'Up to 50',price:'25만원~',priceEn:'From ₩250K'},
+     {name:'컨벤션홀',nameEn:'Convention Hall',cap:'최대 200명',capEn:'Up to 200'},
+     {name:'미팅룸',nameEn:'Meeting Room',cap:'최대 50명',capEn:'Up to 50'},
    ],
    am:['공항철도 직결','홍대 인접','케이터링','주차'],
    amEn:['AREX Direct','Near Hongdae','Catering','Parking'],
@@ -981,15 +982,15 @@ const H = [
   {id:13,e:'🏯',star:5,
    name:'서울신라호텔',nameEn:'The Shilla Seoul',
    rgn:'중구',addr:'중구 동호로',addrEn:'Dongho-ro, Jung-gu',
-   maxCap:1500,minKRW:200,
+   maxCap:1500,minKRW:0,
    tags:['국내최고','남산뷰','VVIP'],tagsEn:['Top-tier','Namsan View','VVIP'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:38,y:38},
    metro:'동대입구역 5번 5분',metroEn:'Dongdaemun Stn Exit 5, 5min',
    phone:'02-2233-3131',email:'banquet@shilla.net',
    venues:[
-     {name:'다이너스티홀',nameEn:'Dynasty Hall',cap:'최대 1,500명',capEn:'Up to 1,500',price:'800만원~',priceEn:'From ₩8M'},
-     {name:'로즈룸',nameEn:'Rose Room',cap:'최대 500명',capEn:'Up to 500',price:'300만원~',priceEn:'From ₩3M'},
-     {name:'영빈관',nameEn:'State Guest House',cap:'최대 200명',capEn:'Up to 200',price:'150만원~',priceEn:'From ₩1.5M'},
+     {name:'다이너스티홀',nameEn:'Dynasty Hall',cap:'최대 1,500명',capEn:'Up to 1,500'},
+     {name:'로즈룸',nameEn:'Rose Room',cap:'최대 500명',capEn:'Up to 500'},
+     {name:'영빈관',nameEn:'State Guest House',cap:'최대 200명',capEn:'Up to 200'},
    ],
    am:['남산정원','야외수영장','발레파킹','VIP전용입구','웨딩전담팀','동시통역'],
    amEn:['Namsan Garden','Outdoor Pool','Valet','VIP Entrance','Wedding Team','Interpretation'],
@@ -997,15 +998,15 @@ const H = [
   {id:14,e:'🌿',star:5,
    name:'웨스틴 조선 서울',nameEn:'The Westin Josun Seoul',
    rgn:'중구',addr:'중구 소공로',addrEn:'Sogong-ro, Jung-gu',
-   maxCap:800,minKRW:150,
+   maxCap:800,minKRW:0,
    tags:['광화문','역사','도심'],tagsEn:['Gwanghwamun','Heritage','City'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:28,y:28},
    metro:'을지로입구역 6번 2분',metroEn:'Euljiro 1-ga Stn Exit 6, 2min',
    phone:'02-771-2510',email:'banquet@westin-josun.com',
    venues:[
-     {name:'크리스탈볼룸',nameEn:'Crystal Ballroom',cap:'최대 800명',capEn:'Up to 800',price:'450만원~',priceEn:'From ₩4.5M'},
-     {name:'아이리스룸',nameEn:'Iris Room',cap:'최대 250명',capEn:'Up to 250',price:'120만원~',priceEn:'From ₩1.2M'},
-     {name:'비즈니스룸',nameEn:'Business Room',cap:'최대 60명',capEn:'Up to 60',price:'40만원~',priceEn:'From ₩400K'},
+     {name:'크리스탈볼룸',nameEn:'Crystal Ballroom',cap:'최대 800명',capEn:'Up to 800'},
+     {name:'아이리스룸',nameEn:'Iris Room',cap:'최대 250명',capEn:'Up to 250'},
+     {name:'비즈니스룸',nameEn:'Business Room',cap:'최대 60명',capEn:'Up to 60'},
    ],
    am:['130년 역사','발레파킹','동시통역','VIP라운지','야외테라스'],
    amEn:['130yr Heritage','Valet','Interpretation','VIP Lounge','Outdoor Terrace'],
@@ -1013,14 +1014,14 @@ const H = [
   {id:15,e:'🌺',star:5,
    name:'반얀트리 클럽 앤 스파 서울',nameEn:'Banyan Tree Club & Spa Seoul',
    rgn:'중구',addr:'중구 장충단로',addrEn:'Jangchungdan-ro, Jung-gu',
-   maxCap:500,minKRW:200,
+   maxCap:500,minKRW:0,
    tags:['남산','스파','럭셔리'],tagsEn:['Namsan','Spa','Luxury'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:36,y:44},
    metro:'버티고개역 2번 5분',metroEn:'Beortigogae Stn Exit 2, 5min',
    phone:'02-2250-8100',email:'banquet@banyantree-seoul.com',
    venues:[
-     {name:'무궁화볼룸',nameEn:'Mugunghwa Ballroom',cap:'최대 500명',capEn:'Up to 500',price:'300만원~',priceEn:'From ₩3M'},
-     {name:'가야금홀',nameEn:'Gayageum Hall',cap:'최대 150명',capEn:'Up to 150',price:'100만원~',priceEn:'From ₩1M'},
+     {name:'무궁화볼룸',nameEn:'Mugunghwa Ballroom',cap:'최대 500명',capEn:'Up to 500'},
+     {name:'가야금홀',nameEn:'Gayageum Hall',cap:'최대 150명',capEn:'Up to 150'},
    ],
    am:['스파','루프탑바','남산뷰','발레파킹','야외정원'],
    amEn:['Full Spa','Rooftop Bar','Namsan View','Valet','Garden'],
@@ -1028,14 +1029,14 @@ const H = [
   {id:16,e:'🏙️',star:5,
    name:'안다즈 서울 강남',nameEn:'Andaz Seoul Gangnam',
    rgn:'강남',addr:'강남구 학동로',addrEn:'Hakdong-ro, Gangnam-gu',
-   maxCap:400,minKRW:180,
+   maxCap:400,minKRW:0,
    tags:['강남','라이프스타일','디자인'],tagsEn:['Gangnam','Lifestyle','Design'],
    types:['기업행사','만찬·연회'],pin:{x:55,y:58},
    metro:'압구정역 1번 5분',metroEn:'Apgujeong Stn Exit 1, 5min',
    phone:'02-2046-1234',email:'seoul.gangnam@andaz.com',
    venues:[
-     {name:'볼룸',nameEn:'Ballroom',cap:'최대 400명',capEn:'Up to 400',price:'250만원~',priceEn:'From ₩2.5M'},
-     {name:'미팅스위트',nameEn:'Meeting Suite',cap:'최대 80명',capEn:'Up to 80',price:'60만원~',priceEn:'From ₩600K'},
+     {name:'볼룸',nameEn:'Ballroom',cap:'최대 400명',capEn:'Up to 400'},
+     {name:'미팅스위트',nameEn:'Meeting Suite',cap:'최대 80명',capEn:'Up to 80'},
    ],
    am:['루프탑풀','스파','현대적AV','케이터링','발레파킹'],
    amEn:['Rooftop Pool','Spa','Modern AV','Catering','Valet'],
@@ -1043,14 +1044,14 @@ const H = [
   {id:17,e:'🗼',star:5,
    name:'롯데호텔 월드',nameEn:'Lotte Hotel World',
    rgn:'잠실',addr:'송파구 올림픽로',addrEn:'Olympic-ro, Songpa-gu',
-   maxCap:1000,minKRW:130,
+   maxCap:1000,minKRW:0,
    tags:['잠실','롯데월드','대형'],tagsEn:['Jamsil','Lotte World','Mega'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:78,y:55},
    metro:'잠실역 직결',metroEn:'Jamsil Stn, Direct',
    phone:'02-419-7000',email:'banquet@lottehotelworld.com',
    venues:[
-     {name:'크리스탈볼룸',nameEn:'Crystal Ballroom',cap:'최대 1,000명',capEn:'Up to 1,000',price:'500만원~',priceEn:'From ₩5M'},
-     {name:'에메랄드홀',nameEn:'Emerald Hall',cap:'최대 300명',capEn:'Up to 300',price:'180만원~',priceEn:'From ₩1.8M'},
+     {name:'크리스탈볼룸',nameEn:'Crystal Ballroom',cap:'최대 1,000명',capEn:'Up to 1,000'},
+     {name:'에메랄드홀',nameEn:'Emerald Hall',cap:'최대 300명',capEn:'Up to 300'},
    ],
    am:['롯데월드타워 연결','발레파킹','VIP라운지','케이터링','동시통역'],
    amEn:['Lotte Tower Access','Valet','VIP Lounge','Catering','Interpretation'],
@@ -1058,14 +1059,14 @@ const H = [
   {id:18,e:'🌊',star:5,
    name:'노보텔 앰배서더 서울 동대문',nameEn:'Novotel Ambassador Seoul Dongdaemun',
    rgn:'동대문',addr:'중구 을지로',addrEn:'Euljiro, Jung-gu',
-   maxCap:600,minKRW:100,
+   maxCap:600,minKRW:0,
    tags:['동대문','DDP','도심'],tagsEn:['Dongdaemun','DDP','Central'],
    types:['기업행사','만찬·연회','세미나'],pin:{x:42,y:30},
    metro:'동대문역사문화공원역 1번 3분',metroEn:'DDP Stn Exit 1, 3min',
    phone:'02-2270-2500',email:'banquet.ddm@ambatel.com',
    venues:[
-     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 600명',capEn:'Up to 600',price:'280만원~',priceEn:'From ₩2.8M'},
-     {name:'세미나룸',nameEn:'Seminar Room',cap:'최대 100명',capEn:'Up to 100',price:'50만원~',priceEn:'From ₩500K'},
+     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 600명',capEn:'Up to 600'},
+     {name:'세미나룸',nameEn:'Seminar Room',cap:'최대 100명',capEn:'Up to 100'},
    ],
    am:['DDP 인접','루프탑풀','케이터링','AV장비','주차'],
    amEn:['Near DDP','Rooftop Pool','Catering','AV Equipment','Parking'],
@@ -1073,14 +1074,14 @@ const H = [
   {id:19,e:'🎪',star:5,
    name:'JW 메리어트 호텔 서울',nameEn:'JW Marriott Hotel Seoul',
    rgn:'강남',addr:'강남구 도산대로',addrEn:'Dosan-daero, Gangnam-gu',
-   maxCap:700,minKRW:170,
+   maxCap:700,minKRW:0,
    tags:['강남','프리미엄','비즈니스'],tagsEn:['Gangnam','Premium','Business'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:58,y:62},
    metro:'압구정로데오역 5번 5분',metroEn:'Apgujeong Rodeo Stn Exit 5, 5min',
    phone:'02-6282-6282',email:'banquet@jwmarriottseoul.com',
    venues:[
-     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 700명',capEn:'Up to 700',price:'400만원~',priceEn:'From ₩4M'},
-     {name:'살롱A·B',nameEn:'Salon A&B',cap:'최대 200명',capEn:'Up to 200',price:'120만원~',priceEn:'From ₩1.2M'},
+     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 700명',capEn:'Up to 700'},
+     {name:'살롱A·B',nameEn:'Salon A&B',cap:'최대 200명',capEn:'Up to 200'},
    ],
    am:['피트니스센터','스파','발레파킹','케이터링','동시통역'],
    amEn:['Fitness Center','Spa','Valet','Catering','Interpretation'],
@@ -1088,14 +1089,14 @@ const H = [
   {id:20,e:'🌸',star:5,
    name:'조선 팰리스 서울 강남',nameEn:'Josun Palace Seoul Gangnam',
    rgn:'강남',addr:'강남구 테헤란로',addrEn:'Teheran-ro, Gangnam-gu',
-   maxCap:500,minKRW:220,
+   maxCap:500,minKRW:0,
    tags:['강남','신규','럭셔리컬렉션'],tagsEn:['Gangnam','New','Luxury Collection'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:65,y:56},
    metro:'선릉역 5번 5분',metroEn:'Seolleung Stn Exit 5, 5min',
    phone:'02-2040-8000',email:'banquet@josunpalace.com',
    venues:[
-     {name:'팰리스볼룸',nameEn:'Palace Ballroom',cap:'최대 500명',capEn:'Up to 500',price:'350만원~',priceEn:'From ₩3.5M'},
-     {name:'그랜드살롱',nameEn:'Grand Salon',cap:'최대 150명',capEn:'Up to 150',price:'120만원~',priceEn:'From ₩1.2M'},
+     {name:'팰리스볼룸',nameEn:'Palace Ballroom',cap:'최대 500명',capEn:'Up to 500'},
+     {name:'그랜드살롱',nameEn:'Grand Salon',cap:'최대 150명',capEn:'Up to 150'},
    ],
    am:['루프탑풀','스파','발레파킹','야외테라스','VIP전용입구'],
    amEn:['Rooftop Pool','Spa','Valet','Outdoor Terrace','VIP Entrance'],
@@ -1105,14 +1106,14 @@ const H = [
   {id:21,e:'🏢',star:4,
    name:'그랜드 앰배서더 서울',nameEn:'Grand Ambassador Seoul',
    rgn:'중구',addr:'중구 장충단로',addrEn:'Jangchungdan-ro, Jung-gu',
-   maxCap:600,minKRW:80,
+   maxCap:600,minKRW:0,
    tags:['동대입구','역사','비즈니스'],tagsEn:['Dongdaemun','Heritage','Business'],
    types:['기업행사','만찬·연회','세미나'],pin:{x:40,y:40},
    metro:'동대입구역 3번 3분',metroEn:'Dongdaemun Stn Exit 3, 3min',
    phone:'02-2275-1101',email:'banquet@grandambassador.com',
    venues:[
-     {name:'다이아몬드홀',nameEn:'Diamond Hall',cap:'최대 600명',capEn:'Up to 600',price:'200만원~',priceEn:'From ₩2M'},
-     {name:'루비홀',nameEn:'Ruby Hall',cap:'최대 150명',capEn:'Up to 150',price:'70만원~',priceEn:'From ₩700K'},
+     {name:'다이아몬드홀',nameEn:'Diamond Hall',cap:'최대 600명',capEn:'Up to 600'},
+     {name:'루비홀',nameEn:'Ruby Hall',cap:'최대 150명',capEn:'Up to 150'},
    ],
    am:['야외수영장','바','발레파킹','케이터링'],
    amEn:['Outdoor Pool','Bar','Valet','Catering'],
@@ -1120,14 +1121,14 @@ const H = [
   {id:22,e:'🌙',star:4,
    name:'몬드리안 서울 이태원',nameEn:'Mondrian Seoul Itaewon',
    rgn:'용산',addr:'용산구 이태원로',addrEn:'Itaewon-ro, Yongsan-gu',
-   maxCap:300,minKRW:120,
+   maxCap:300,minKRW:0,
    tags:['이태원','루프탑','트렌디'],tagsEn:['Itaewon','Rooftop','Trendy'],
    types:['기업행사','만찬·연회'],pin:{x:30,y:52},
    metro:'이태원역 1번 7분',metroEn:'Itaewon Stn Exit 1, 7min',
    phone:'02-2076-2000',email:'banquet@mondrian-seoul.com',
    venues:[
-     {name:'이벤트홀',nameEn:'Event Hall',cap:'최대 300명',capEn:'Up to 300',price:'150만원~',priceEn:'From ₩1.5M'},
-     {name:'루프탑라운지',nameEn:'Rooftop Lounge',cap:'최대 100명',capEn:'Up to 100',price:'80만원~',priceEn:'From ₩800K'},
+     {name:'이벤트홀',nameEn:'Event Hall',cap:'최대 300명',capEn:'Up to 300'},
+     {name:'루프탑라운지',nameEn:'Rooftop Lounge',cap:'최대 100명',capEn:'Up to 100'},
    ],
    am:['루프탑풀','스파','케이터링','AV장비'],
    amEn:['Rooftop Pool','Spa','Catering','AV Equipment'],
@@ -1135,14 +1136,14 @@ const H = [
   {id:23,e:'🎨',star:4,
    name:'글래드 호텔 여의도',nameEn:'Glad Hotel Yeouido',
    rgn:'여의도',addr:'영등포구 국제금융로',addrEn:'Gukjegeumyung-ro, Yeongdeungpo-gu',
-   maxCap:300,minKRW:70,
+   maxCap:300,minKRW:0,
    tags:['여의도','금융','비즈니스'],tagsEn:['Yeouido','Finance','Business'],
    types:['기업행사','세미나','만찬·연회'],pin:{x:17,y:61},
    metro:'여의도역 5번 3분',metroEn:'Yeouido Stn Exit 5, 3min',
    phone:'02-6930-1111',email:'banquet@gladhotel.co.kr',
    venues:[
-     {name:'컨벤션홀',nameEn:'Convention Hall',cap:'최대 300명',capEn:'Up to 300',price:'120만원~',priceEn:'From ₩1.2M'},
-     {name:'미팅룸A',nameEn:'Meeting Room A',cap:'최대 80명',capEn:'Up to 80',price:'40만원~',priceEn:'From ₩400K'},
+     {name:'컨벤션홀',nameEn:'Convention Hall',cap:'최대 300명',capEn:'Up to 300'},
+     {name:'미팅룸A',nameEn:'Meeting Room A',cap:'최대 80명',capEn:'Up to 80'},
    ],
    am:['한강뷰','케이터링','AV장비','주차','피트니스'],
    amEn:['Han River View','Catering','AV Equipment','Parking','Fitness'],
@@ -1150,14 +1151,14 @@ const H = [
   {id:24,e:'🌟',star:4,
    name:'신라스테이 삼성',nameEn:'Shilla Stay Samseong',
    rgn:'강남',addr:'강남구 테헤란로',addrEn:'Teheran-ro, Gangnam-gu',
-   maxCap:200,minKRW:55,
+   maxCap:200,minKRW:0,
    tags:['코엑스','강남','비즈니스'],tagsEn:['COEX','Gangnam','Business'],
    types:['기업행사','세미나'],pin:{x:63,y:53},
    metro:'삼성역 7번 5분',metroEn:'Samseong Stn Exit 7, 5min',
    phone:'02-2191-0000',email:'banquet@shillastay-samsung.com',
    venues:[
-     {name:'비즈니스홀',nameEn:'Business Hall',cap:'최대 200명',capEn:'Up to 200',price:'80만원~',priceEn:'From ₩800K'},
-     {name:'세미나룸',nameEn:'Seminar Room',cap:'최대 60명',capEn:'Up to 60',price:'30만원~',priceEn:'From ₩300K'},
+     {name:'비즈니스홀',nameEn:'Business Hall',cap:'최대 200명',capEn:'Up to 200'},
+     {name:'세미나룸',nameEn:'Seminar Room',cap:'최대 60명',capEn:'Up to 60'},
    ],
    am:['코엑스 인접','케이터링','AV장비','주차','피트니스'],
    amEn:['Near COEX','Catering','AV Equipment','Parking','Fitness'],
@@ -1165,13 +1166,13 @@ const H = [
   {id:25,e:'🏡',star:4,
    name:'오크우드 프리미어 코엑스 센터',nameEn:'Oakwood Premier COEX Center',
    rgn:'강남',addr:'강남구 영동대로',addrEn:'Yeongdong-daero, Gangnam-gu',
-   maxCap:180,minKRW:60,
+   maxCap:180,minKRW:0,
    tags:['코엑스','강남','서비스드'],tagsEn:['COEX','Gangnam','Serviced'],
    types:['기업행사','세미나','웨딩·돌잔치'],pin:{x:61,y:51},
    metro:'삼성역 5번 3분',metroEn:'Samseong Stn Exit 5, 3min',
    phone:'02-6002-1000',email:'events@oakwoodseoulcoex.com',
    venues:[
-     {name:'오크·프리미어룸',nameEn:'Oak Premier Room',cap:'최대 180명',capEn:'Up to 180',price:'70만원~',priceEn:'From ₩700K'},
+     {name:'오크·프리미어룸',nameEn:'Oak Premier Room',cap:'최대 180명',capEn:'Up to 180'},
    ],
    am:['무료주차','AV장비','케이터링','피트니스','스파'],
    amEn:['Free Parking','AV Equipment','Catering','Fitness','Spa'],
@@ -1179,14 +1180,14 @@ const H = [
   {id:26,e:'🏛️',star:4,
    name:'노보텔 앰배서더 서울 용산',nameEn:'Novotel Ambassador Seoul Yongsan',
    rgn:'용산',addr:'용산구 한강대로',addrEn:'Hangang-daero, Yongsan-gu',
-   maxCap:400,minKRW:75,
+   maxCap:400,minKRW:0,
    tags:['용산','서울드래곤시티','한강뷰'],tagsEn:['Yongsan','Dragon City','Han River'],
    types:['기업행사','만찬·연회','세미나'],pin:{x:29,y:56},
    metro:'신용산역 4번 3분',metroEn:'Sinyongsan Stn Exit 4, 3min',
    phone:'02-2017-1000',email:'banquet.yongsan@ambatel.com',
    venues:[
-     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 400명',capEn:'Up to 400',price:'180만원~',priceEn:'From ₩1.8M'},
-     {name:'세미나룸',nameEn:'Seminar Room',cap:'최대 80명',capEn:'Up to 80',price:'40만원~',priceEn:'From ₩400K'},
+     {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 400명',capEn:'Up to 400'},
+     {name:'세미나룸',nameEn:'Seminar Room',cap:'최대 80명',capEn:'Up to 80'},
    ],
    am:['한강뷰','야외수영장','케이터링','AV장비','주차'],
    amEn:['Han River View','Pool','Catering','AV Equipment','Parking'],
@@ -1196,13 +1197,13 @@ const H = [
   {id:27,e:'🌈',star:3,
    name:'이비스 앰배서더 명동',nameEn:'Ibis Ambassador Seoul Myeongdong',
    rgn:'중구',addr:'중구 퇴계로',addrEn:'Toegye-ro, Jung-gu',
-   maxCap:80,minKRW:20,
+   maxCap:80,minKRW:0,
    tags:['명동','가성비','도심'],tagsEn:['Myeongdong','Value','Central'],
    types:['기업행사','세미나'],pin:{x:32,y:32},
    metro:'명동역 3번 5분',metroEn:'Myeongdong Stn Exit 3, 5min',
    phone:'02-6361-8888',email:'banquet@ibisambassador-myeongdong.com',
    venues:[
-     {name:'미팅룸',nameEn:'Meeting Room',cap:'최대 80명',capEn:'Up to 80',price:'20만원~',priceEn:'From ₩200K'},
+     {name:'미팅룸',nameEn:'Meeting Room',cap:'최대 80명',capEn:'Up to 80'},
    ],
    am:['명동 중심','케이터링','AV장비','주차'],
    amEn:['Myeongdong Center','Catering','AV Equipment','Parking'],
@@ -1210,14 +1211,14 @@ const H = [
   {id:28,e:'🌻',star:3,
    name:'나인트리 프리미어 인사동',nameEn:'Nine Tree Premier Insadong',
    rgn:'종로',addr:'종로구 인사동길',addrEn:'Insadong-gil, Jongno-gu',
-   maxCap:100,minKRW:25,
+   maxCap:100,minKRW:0,
    tags:['인사동','문화','가성비'],tagsEn:['Insadong','Culture','Value'],
    types:['기업행사','세미나','웨딩·돌잔치'],pin:{x:27,y:22},
    metro:'안국역 6번 2분',metroEn:'Anguk Stn Exit 6, 2min',
    phone:'02-6730-9000',email:'banquet@ninetreeinsadong.com',
    venues:[
-     {name:'이벤트홀',nameEn:'Event Hall',cap:'최대 100명',capEn:'Up to 100',price:'30만원~',priceEn:'From ₩300K'},
-     {name:'미팅룸',nameEn:'Meeting Room',cap:'최대 30명',capEn:'Up to 30',price:'15만원~',priceEn:'From ₩150K'},
+     {name:'이벤트홀',nameEn:'Event Hall',cap:'최대 100명',capEn:'Up to 100'},
+     {name:'미팅룸',nameEn:'Meeting Room',cap:'최대 30명',capEn:'Up to 30'},
    ],
    am:['인사동 문화거리','케이터링','AV장비','주차'],
    amEn:['Insadong Culture','Catering','AV Equipment','Parking'],
@@ -1225,14 +1226,14 @@ const H = [
   {id:29,e:'🌴',star:3,
    name:'이비스 스타일 앰배서더 서울 강남',nameEn:'Ibis Styles Ambassador Seoul Gangnam',
    rgn:'강남',addr:'강남구 봉은사로',addrEn:'Bongeunsa-ro, Gangnam-gu',
-   maxCap:120,minKRW:22,
+   maxCap:120,minKRW:0,
    tags:['강남','가성비','역세권'],tagsEn:['Gangnam','Value','Subway'],
    types:['기업행사','세미나'],pin:{x:60,y:57},
    metro:'삼성역 1번 5분',metroEn:'Samseong Stn Exit 1, 5min',
    phone:'02-6030-6400',email:'banquet@ibis-gangnam.com',
    venues:[
-     {name:'세미나룸A',nameEn:'Seminar Room A',cap:'최대 80명',capEn:'Up to 80',price:'22만원~',priceEn:'From ₩220K'},
-     {name:'소회의실',nameEn:'Small Meeting Room',cap:'최대 30명',capEn:'Up to 30',price:'12만원~',priceEn:'From ₩120K'},
+     {name:'세미나룸A',nameEn:'Seminar Room A',cap:'최대 80명',capEn:'Up to 80'},
+     {name:'소회의실',nameEn:'Small Meeting Room',cap:'최대 30명',capEn:'Up to 30'},
    ],
    am:['강남 중심','AV장비','케이터링','피트니스','주차'],
    amEn:['Gangnam Center','AV Equipment','Catering','Fitness','Parking'],
@@ -1240,14 +1241,14 @@ const H = [
   {id:30,e:'🏙',star:3,
    name:'레스케이프 호텔',nameEn:'L\'Escape Hotel',
    rgn:'중구',addr:'중구 회현동',addrEn:'Hoehyeon-dong, Jung-gu',
-   maxCap:100,minKRW:30,
+   maxCap:100,minKRW:0,
    tags:['명동','부티크','감성'],tagsEn:['Myeongdong','Boutique','Chic'],
    types:['만찬·연회','기업행사','웨딩·돌잔치'],pin:{x:31,y:35},
    metro:'회현역 5번 3분',metroEn:'Hoehyeon Stn Exit 5, 3min',
    phone:'02-317-4000',email:'banquet@lescapehotel.com',
    venues:[
-     {name:'이벤트홀',nameEn:'Event Hall',cap:'최대 100명',capEn:'Up to 100',price:'50만원~',priceEn:'From ₩500K'},
-     {name:'라운지',nameEn:'Lounge',cap:'최대 50명',capEn:'Up to 50',price:'25만원~',priceEn:'From ₩250K'},
+     {name:'이벤트홀',nameEn:'Event Hall',cap:'최대 100명',capEn:'Up to 100'},
+     {name:'라운지',nameEn:'Lounge',cap:'최대 50명',capEn:'Up to 50'},
    ],
    am:['부티크인테리어','스파','라이브러리','케이터링','주차'],
    amEn:['Boutique Interior','Spa','Library','Catering','Parking'],
@@ -1259,6 +1260,7 @@ const H = [
 ══════════════════════════════════════ */
 let lang='ko', selHotel=null, starFilter=new Set(), curTab='list';
 let curUser=null; // {name, provider, avatar}
+let savedList=new Set(); // 저장된 호텔 id 목록
 
 /* ══════════════════════════════════════
    LANG
@@ -1345,8 +1347,6 @@ function renderCards(list){
         <div class="c-ft">
           <span class="c-cap ko">👥 최대 ${h.maxCap.toLocaleString()}명</span>
           <span class="c-cap en">👥 Up to ${h.maxCap.toLocaleString()}</span>
-          <span class="c-price ko">${h.minKRW}만원~ <small>부터</small></span>
-          <span class="c-price en">₩${(h.minKRW*10000).toLocaleString()}~ <small>from</small></span>
         </div>
       </div>
     </div>`;
@@ -1623,13 +1623,13 @@ function openDetail(id){
       <div class="d-body">
         <div class="d-stats">
           <div class="d-stat"><div class="d-si">👥</div><div class="d-sl">${ko?'최대 수용':'Max Capacity'}</div><div class="d-sv">${h.maxCap.toLocaleString()}${ko?'명':''}</div></div>
-          <div class="d-stat"><div class="d-si">💰</div><div class="d-sl">${ko?'최소 비용':'Starting Price'}</div><div class="d-sv">${ko?h.minKRW+'만원~':'₩'+h.minKRW+'0K~'}</div></div>
+          
           <div class="d-stat"><div class="d-si">🏨</div><div class="d-sl">${ko?'등급':'Grade'}</div><div class="d-sv">${'★'.repeat(h.star)}</div></div>
         </div>
 
         <div style="margin-bottom:9px"><span class="d-sec">${ko?'연회장 목록':'Venue Spaces'}</span></div>
         <div class="v-grid">
-          ${h.venues.map(v=>`<div class="v-it"><div class="v-nm">${ko?v.name:v.nameEn}</div><div class="v-cp">👥 ${ko?v.cap:v.capEn}</div><div class="v-pr">${ko?v.price:v.priceEn}</div></div>`).join('')}
+          ${h.venues.map(v=>`<div class="v-it"><div class="v-nm">${ko?v.name:v.nameEn}</div><div class="v-cp">👥 ${ko?v.cap:v.capEn}</div><div class="v-pr" style="font-size:10px;color:var(--mid-gray)">${ko?'견적 문의':'Quote on Request'}</div></div>`).join('')}
         </div>
 
         <div style="margin-bottom:9px"><span class="d-sec">${ko?'편의시설':'Facilities'}</span></div>
@@ -1664,7 +1664,9 @@ function openDetail(id){
         <div class="d-acts">
           <button class="d-act p" onclick="closeOvl();openQuote(${h.id})">📋 ${ko?'견적 요청하기':'Request Quote'}</button>
           <button class="d-act s" onclick="window.open('tel:${h.phone}')">📞 ${ko?'바로 전화':'Call Now'}</button>
-          <button class="d-act o" title="${ko?'저장':'Save'}" onclick="alert('${ko?'저장되었습니다.':'Saved!'}')">🔖</button>
+          <button class="d-act o" onclick="toggleSave(${h.id})" id="save-btn-${h.id}">
+            ${savedList.has(h.id) ? (ko?'★ 저장됨':'★ Saved') : (ko?'☆ 저장하기':'☆ Save')}
+          </button>
         </div>
       </div>
     </div>
@@ -1761,6 +1763,96 @@ function submitQuote(id){
     ?'✅ 견적 요청이 접수되었습니다!\n호텔 연회팀에서 1~2 영업일 내에 연락드립니다.'
     :'✅ Quote request submitted!\nThe banquet team will reply within 1–2 business days.'
   ),100);
+}
+
+/* ══════════════════════════════════════
+   SAVE / MY PAGE
+══════════════════════════════════════ */
+function toggleSave(id){
+  const ko=lang==='ko';
+  if(!curUser){
+    // 로그인 안 된 경우 → 로그인 유도 모달
+    setOvlContent(`
+      <div class="login-modal">
+        <button class="lm-cls" onclick="closeOvl()">✕</button>
+        <div class="lm-icon">🔐</div>
+        <div class="lm-ttl">${ko?'로그인 후 이용 가능합니다':'Please log in to continue'}</div>
+        <div class="lm-sub">${ko?'저장하기 기능은 로그인 회원만 이용할 수 있습니다.\n소셜 계정으로 간편하게 시작하세요.':'The Save feature is available for logged-in members only.\nSign in quickly with your social account.'}</div>
+        <div class="lm-btns">
+          <button class="lm-kakao" onclick="socialLogin('kakao')">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5C4.86 1.5 1.5 4.08 1.5 7.26c0 2.04 1.32 3.84 3.3 4.86L3.9 15l3.48-2.28c.54.06 1.08.12 1.62.12 4.14 0 7.5-2.58 7.5-5.76S13.14 1.5 9 1.5z" fill="#3C1E1E"/></svg>
+            ${ko?'카카오로 시작하기':'Continue with Kakao'}
+          </button>
+          <button class="lm-naver" onclick="socialLogin('naver')">
+            <span style="font-weight:800;font-size:14px;color:#fff">N</span>
+            ${ko?'네이버로 시작하기':'Continue with Naver'}
+          </button>
+          <button class="lm-google" onclick="socialLogin('google')">
+            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M15.68 8.18c0-.57-.05-1.11-.14-1.64H8v3.1h4.3a3.67 3.67 0 01-1.6 2.41v2h2.58c1.51-1.39 2.4-3.44 2.4-5.87z" fill="#4285F4"/><path d="M8 16c2.16 0 3.97-.72 5.3-1.94l-2.59-2.01c-.71.48-1.63.76-2.71.76-2.08 0-3.85-1.41-4.48-3.3H.85v2.07A8 8 0 008 16z" fill="#34A853"/><path d="M3.52 9.51A4.8 4.8 0 013.27 8c0-.52.09-1.03.25-1.51V4.42H.85A8 8 0 000 8c0 1.29.31 2.51.85 3.58l2.67-2.07z" fill="#FBBC05"/><path d="M8 3.18c1.17 0 2.22.4 3.05 1.2l2.28-2.28A8 8 0 00.85 4.42L3.52 6.49C4.15 4.6 5.92 3.18 8 3.18z" fill="#EA4335"/></svg>
+            ${ko?'구글로 시작하기':'Continue with Google'}
+          </button>
+        </div>
+      </div>
+    `);
+    return;
+  }
+  // 로그인된 경우 → 저장 토글
+  if(savedList.has(id)){
+    savedList.delete(id);
+    showToast(ko?'저장이 취소되었습니다.':'Removed from saved.');
+  } else {
+    savedList.add(id);
+    showToast(ko?'저장되었습니다! 마이페이지에서 확인하세요.':'Saved! Check your profile.');
+  }
+  // 버튼 텍스트 즉시 갱신
+  const btn=document.getElementById('save-btn-'+id);
+  if(btn) btn.textContent = savedList.has(id)?(ko?'★ 저장됨':'★ Saved'):(ko?'☆ 저장하기':'☆ Save');
+}
+
+function showToast(msg){
+  let t=document.getElementById('toast');
+  if(!t){ t=document.createElement('div'); t.id='toast';
+    t.style.cssText='position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#18160f;color:#fff;padding:11px 22px;border-radius:30px;font-size:13px;font-weight:500;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:opacity .3s';
+    document.body.appendChild(t); }
+  t.textContent=msg; t.style.opacity='1';
+  clearTimeout(t._to); t._to=setTimeout(()=>t.style.opacity='0',2500);
+}
+
+function openMyPage(){
+  const ko=lang==='ko';
+  if(!curUser){ openLogin(); return; }
+  const saved=H.filter(h=>savedList.has(h.id));
+  setOvlContent(`
+    <div class="d-sheet" style="max-width:520px">
+      <div class="d-hd" style="padding-bottom:16px">
+        <button class="d-cls" onclick="closeOvl()">✕</button>
+        <div style="width:52px;height:52px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--ink);margin:0 auto 10px">
+          ${curUser.name.charAt(0)}</div>
+        <div class="d-nm" style="font-size:17px">${curUser.name}${ko?' 님':''}</div>
+        <div style="font-size:11px;color:var(--mid-gray);margin-top:2px">${curUser.provider.toUpperCase()} ${ko?'계정으로 로그인':'account'}</div>
+      </div>
+      <div class="d-body">
+        <div style="margin-bottom:10px"><span class="d-sec">${ko?'저장한 연회장':'Saved Venues'} (${saved.length})</span></div>
+        ${saved.length===0
+          ? `<div style="text-align:center;padding:30px 0;color:var(--mid-gray);font-size:13px">${ko?'아직 저장한 연회장이 없습니다.\n관심 있는 호텔의 저장하기를 눌러보세요.':'No saved venues yet.'}</div>`
+          : `<div style="display:flex;flex-direction:column;gap:8px">
+              ${saved.map(h=>`
+                <div style="display:flex;align-items:center;gap:12px;padding:12px;border:1.5px solid #eae4d8;border-radius:10px;cursor:pointer" onclick="closeOvl();setTimeout(()=>openDetail(${h.id}),200)">
+                  ${starBadge(h.star)}
+                  <div style="flex:1">
+                    <div style="font-family:var(--ff-serif);font-size:14px;font-weight:600;color:var(--ink)">${ko?h.name:h.nameEn}</div>
+                    <div style="font-size:11px;color:var(--mid-gray);margin-top:2px">${'★'.repeat(h.star)} · ${ko?h.addr:h.addrEn}</div>
+                  </div>
+                  <button onclick="event.stopPropagation();toggleSave(${h.id});this.closest('[style]').remove()" style="background:none;border:none;font-size:16px;cursor:pointer;color:var(--mid-gray)">✕</button>
+                </div>`).join('')}
+            </div>`}
+        <button onclick="curUser=null;savedList.clear();closeOvl();document.getElementById('loginBtn').innerHTML='<span class=\\'ko\\'>로그인</span><span class=\\'en\\'>Login</span>'" 
+          style="margin-top:18px;width:100%;padding:11px;background:none;border:1.5px solid #ddd;border-radius:10px;font-size:12px;color:var(--mid-gray);cursor:pointer">
+          ${ko?'로그아웃':'Sign out'}
+        </button>
+      </div>
+    </div>
+  `);
 }
 
 /* ══════════════════════════════════════
