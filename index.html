@@ -7,7 +7,9 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2318160f'/><text x='7' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' fill='%23c8a96e'>B</text><text x='17' y='22' font-family='Georgia,serif' font-size='13' font-style='italic' fill='%23c8a96e'>v</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=3mliteco35"></script>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=3mliteco35"></script>
+<!-- 카카오 SDK -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
 
 <!--
   ══════════════════════════════════════════════════════════════
@@ -276,15 +278,14 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
 .card:hover::after,.card.sel::after{opacity:1}
 .card.sel{border-color:var(--ink);background:#faf8f2;box-shadow:var(--sh-md)}
 
-.c-thumb{width:76px;height:76px;border-radius:10px;
+.c-thumb{width:76px;min-height:76px;border-radius:10px;
   background:linear-gradient(135deg,var(--ink) 0%,#2d2820 100%);
-  display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
-.c-info{flex:1;min-width:0}
-.c-r1{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px}
+  display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;align-self:center}
+.c-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.c-r1{display:flex;align-items:center;gap:6px;margin-bottom:4px}
 .c-name{font-family:var(--ff-serif);font-size:14px;font-weight:600;color:var(--ink);
-  line-height:1.35;flex:1;word-break:keep-all;word-wrap:break-word;white-space:normal}
-.c-r1{flex-wrap:wrap;gap:3px}
-.c-stars{color:var(--gold);font-size:10px;flex-shrink:0;margin-left:5px;letter-spacing:.5px}
+  line-height:1.4;flex:1;word-break:keep-all;word-wrap:break-word;white-space:normal}
+.c-stars{color:var(--gold);font-size:10px;flex-shrink:0;letter-spacing:.5px;white-space:nowrap}
 .c-addr{font-size:11px;color:var(--mid-gray);margin-bottom:6px;display:flex;align-items:center;gap:3px}
 .c-chips{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:6px}
 .ch{background:var(--cream);color:var(--ink-soft);font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500}
@@ -728,6 +729,18 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
       </select>
     </div>
     <div class="cards" id="cards"></div>
+    <!-- FOOTER inside panel scroll -->
+    <div style="background:#18160f;color:rgba(255,255,255,.55);
+      font-family:'DM Sans','Noto Sans KR',sans-serif;font-size:11px;line-height:1.9;
+      padding:18px 16px 16px;border-top:1px solid rgba(200,169,110,.18);flex-shrink:0">
+      <div style="margin-bottom:6px">
+        <span style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:700;color:#c8a96e;letter-spacing:.5px">Banvier</span>
+      </div>
+      <div class="ko" style="color:rgba(255,255,255,.5)">담당자 : Steve Sohn &nbsp;|&nbsp; 연락처 : sssohn@thelayercorp.com</div>
+      <div class="en" style="color:rgba(255,255,255,.5)">General Manager : Steve Sohn &nbsp;|&nbsp; Contact : sssohn@thelayercorp.com</div>
+      <div style="margin-top:6px;font-size:10px;color:rgba(255,255,255,.28)" class="ko">© 2026 Banvier. All rights reserved. 본 서비스의 모든 콘텐츠 및 상표권은 Banvier에 있습니다.</div>
+      <div style="margin-top:6px;font-size:10px;color:rgba(255,255,255,.28)" class="en">© 2026 Banvier. All rights reserved. All content and trademarks are the property of Banvier.</div>
+    </div>
   </div>
 
   <!-- MAP -->
@@ -778,9 +791,10 @@ function starBadge(star){
     3:{bg:'#2d4a1e',accent:'#8fbc6a',label:'3★'},
   }[star]||{bg:'#333',accent:'#ccc',label:star+'★'};
   return `<div style="width:76px;height:76px;border-radius:10px;background:${cfg.bg};
-    display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    flex-shrink:0;align-self:center;text-align:center">
     <div style="font-size:18px;color:${cfg.accent};letter-spacing:1px;line-height:1">${cfg.label}</div>
-    <div style="width:36px;height:1px;background:${cfg.accent};opacity:.5;margin:5px 0"></div>
+    <div style="width:36px;height:1px;background:${cfg.accent};opacity:.5;margin:5px auto"></div>
     <div style="font-size:8px;color:rgba(255,255,255,.55);letter-spacing:.5px">HOTEL</div>
   </div>`;
 }
@@ -788,7 +802,7 @@ function starBadge(star){
 const H = [
   {id:1,e:'🏛️',star:5,
    name:'그랜드 인터컨티넨탈 서울 파르나스',nameEn:'Grand InterContinental Seoul Parnas',
-   rgn:'강남',addr:'강남구 테헤란로',addrEn:'Teheran-ro, Gangnam-gu',
+   rgn:'강남',addr:'강남구 테헤란로 521',addrEn:'521 Teheran-ro, Gangnam-gu',
    maxCap:1200,minKRW:0,
    tags:['초대형','MICE특화','강남'],tagsEn:['Mega','MICE','Gangnam'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],
@@ -806,7 +820,7 @@ const H = [
   },
   {id:2,e:'🌸',star:5,
    name:'롯데호텔 서울',nameEn:'Lotte Hotel Seoul',
-   rgn:'중구',addr:'중구 을지로',addrEn:'Euljiro, Jung-gu',
+   rgn:'중구',addr:'중구 을지로 30',addrEn:'30 Euljiro, Jung-gu',
    maxCap:900,minKRW:0,
    tags:['도심','역세권','전통'],tagsEn:['City Center','Subway','Heritage'],
    types:['만찬·연회','기업행사'],pin:{x:28,y:36},
@@ -822,7 +836,7 @@ const H = [
   },
   {id:3,e:'🌊',star:5,
    name:'콘래드 서울',nameEn:'Conrad Seoul',
-   rgn:'여의도',addr:'영등포구 여의도',addrEn:'Yeouido, Yeongdeungpo-gu',
+   rgn:'여의도',addr:'영등포구 국제금융로 10',addrEn:'10 Gukjegeumyung-ro, Yeongdeungpo-gu',
    maxCap:800,minKRW:0,
    tags:['한강뷰','금융가','비즈니스'],tagsEn:['Han River','Finance','Business'],
    types:['기업행사','만찬·연회'],pin:{x:16,y:56},
@@ -838,7 +852,7 @@ const H = [
   },
   {id:4,e:'🌙',star:5,
    name:'시그니엘 서울',nameEn:'Signiel Seoul',
-   rgn:'송파',addr:'송파구 신천동',addrEn:'Sincheon-dong, Songpa-gu',
+   rgn:'잠실',addr:'송파구 올림픽로 300',addrEn:'300 Olympic-ro, Songpa-gu',
    maxCap:600,minKRW:0,
    tags:['롯데타워','초고층','랜드마크'],tagsEn:['Lotte Tower','Sky High','Landmark'],
    types:['웨딩·돌잔치','만찬·연회','기업행사'],pin:{x:76,y:66},
@@ -854,7 +868,7 @@ const H = [
   },
   {id:5,e:'🏰',star:5,
    name:'포시즌스 호텔 서울',nameEn:'Four Seasons Hotel Seoul',
-   rgn:'종로',addr:'종로구 새문안로',addrEn:'Saemoonan-ro, Jongno-gu',
+   rgn:'종로',addr:'종로구 새문안로 97',addrEn:'97 Saemoonan-ro, Jongno-gu',
    maxCap:500,minKRW:0,
    tags:['광화문','럭셔리','갤러리'],tagsEn:['Gwanghwamun','Luxury','Gallery'],
    types:['만찬·연회','기업행사','웨딩·돌잔치'],pin:{x:36,y:26},
@@ -870,7 +884,7 @@ const H = [
   },
   {id:6,e:'🌺',star:5,
    name:'그랜드 하얏트 서울',nameEn:'Grand Hyatt Seoul',
-   rgn:'용산',addr:'용산구 한남동',addrEn:'Hannam-dong, Yongsan-gu',
+   rgn:'용산',addr:'용산구 소월로 322',addrEn:'322 Sowol-ro, Yongsan-gu',
    maxCap:700,minKRW:0,
    tags:['남산뷰','한남','야외'],tagsEn:['Namsan View','Hannam','Outdoor'],
    types:['기업행사','만찬·연회'],pin:{x:48,y:40},
@@ -886,7 +900,7 @@ const H = [
   },
   {id:7,e:'✨',star:5,
    name:'파크 하얏트 서울',nameEn:'Park Hyatt Seoul',
-   rgn:'강남',addr:'강남구 테헤란로',addrEn:'Teheran-ro, Gangnam-gu',
+   rgn:'강남',addr:'강남구 테헤란로 606',addrEn:'606 Teheran-ro, Gangnam-gu',
    maxCap:350,minKRW:0,
    tags:['프라이빗','모던','강남'],tagsEn:['Private','Modern','Gangnam'],
    types:['만찬·연회','기업행사'],pin:{x:58,y:60},
@@ -901,7 +915,7 @@ const H = [
   },
   {id:8,e:'🎭',star:5,
    name:'페어몬트 앰배서더 서울',nameEn:'Fairmont Ambassador Seoul',
-   rgn:'여의도',addr:'영등포구 여의도',addrEn:'Yeouido, Yeongdeungpo-gu',
+   rgn:'여의도',addr:'영등포구 여의대로 108',addrEn:'108 Yeouidae-ro, Yeongdeungpo-gu',
    maxCap:1000,minKRW:0,
    tags:['여의도','대형','신규'],tagsEn:['Yeouido','Large','New'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:10,y:48},
@@ -917,7 +931,7 @@ const H = [
   },
   {id:9,e:'🌿',star:5,
    name:'JW 메리어트 동대문 스퀘어 서울',nameEn:'JW Marriott Dongdaemun Square Seoul',
-   rgn:'종로',addr:'종로구 청계천로',addrEn:'Cheonggyecheon-ro, Jongno-gu',
+   rgn:'동대문',addr:'종로구 청계천로 279',addrEn:'279 Cheonggyecheon-ro, Jongno-gu',
    maxCap:450,minKRW:0,
    tags:['동대문','청계천','접근성'],tagsEn:['Dongdaemun','Cheonggyecheon','Accessible'],
    types:['기업행사','만찬·연회'],pin:{x:40,y:30},
@@ -933,11 +947,11 @@ const H = [
   },
   {id:10,e:'🔮',star:5,
    name:'소피텔 앰배서더 서울',nameEn:'Sofitel Ambassador Seoul',
-   rgn:'강남',addr:'강남구 도산대로',addrEn:'Dosan-daero, Gangnam-gu',
+   rgn:'잠실',addr:'송파구 잠실로 209',addrEn:'209 Jamshil-ro, Songpa-gu',
    maxCap:300,minKRW:0,
    tags:['프렌치럭셔리','청담','비즈니스'],tagsEn:['French Luxury','Cheongdam','Business'],
    types:['만찬·연회','기업행사','웨딩·돌잔치'],pin:{x:66,y:57},
-   metro:'압구정로데오역 4번 5분',metroEn:'Apgujeong Rodeo Stn Exit 4, 5min',
+   metro:'잠실역 1번 2분 (2·8호선)',metroEn:'Jamsil Stn Exit 1, 2min (Line 2·8)',
    phone:'02-2191-8000',email:'h3562-banquet@sofitel.com',
    venues:[
      {name:'그랜드볼룸 방돔',nameEn:'Grand Ballroom Vendôme',cap:'최대 300명',capEn:'Up to 300'},
@@ -949,7 +963,7 @@ const H = [
   },
   {id:11,e:'🌅',star:4,
    name:'나인트리 프리미어 로카우스 서울 용산',nameEn:'Nine Tree Premier Locaus Yongsan',
-   rgn:'용산',addr:'용산구 한강대로',addrEn:'Hangang-daero, Yongsan-gu',
+   rgn:'용산',addr:'용산구 한강대로23길 25',addrEn:'25 Hangang-daero 23-gil, Yongsan-gu',
    maxCap:250,minKRW:0,
    tags:['가성비','용산','4성급'],tagsEn:['Value','Yongsan','4-Star'],
    types:['기업행사','만찬·연회'],pin:{x:33,y:50},
@@ -964,7 +978,7 @@ const H = [
   },
   {id:12,e:'🎋',star:4,
    name:'롯데시티호텔 마포',nameEn:'Lotte City Hotel Mapo',
-   rgn:'마포',addr:'마포구 공항대로',addrEn:'Gonghang-daero, Mapo-gu',
+   rgn:'마포',addr:'마포구 마포대로 133',addrEn:'133 Mapo-daero, Mapo-gu',
    maxCap:200,minKRW:0,
    tags:['홍대','마포','4성급'],tagsEn:['Hongdae','Mapo','4-Star'],
    types:['기업행사','웨딩·돌잔치'],pin:{x:12,y:34},
@@ -981,7 +995,7 @@ const H = [
   /* ─── 5성급 추가 ─── */
   {id:13,e:'🏯',star:5,
    name:'서울신라호텔',nameEn:'The Shilla Seoul',
-   rgn:'중구',addr:'중구 동호로',addrEn:'Dongho-ro, Jung-gu',
+   rgn:'중구',addr:'중구 동호로 249',addrEn:'249 Dongho-ro, Jung-gu',
    maxCap:1500,minKRW:0,
    tags:['국내최고','남산뷰','VVIP'],tagsEn:['Top-tier','Namsan View','VVIP'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:38,y:38},
@@ -997,7 +1011,7 @@ const H = [
   },
   {id:14,e:'🌿',star:5,
    name:'웨스틴 조선 서울',nameEn:'The Westin Josun Seoul',
-   rgn:'중구',addr:'중구 소공로',addrEn:'Sogong-ro, Jung-gu',
+   rgn:'중구',addr:'중구 소공로 106',addrEn:'106 Sogong-ro, Jung-gu',
    maxCap:800,minKRW:0,
    tags:['광화문','역사','도심'],tagsEn:['Gwanghwamun','Heritage','City'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:28,y:28},
@@ -1013,7 +1027,7 @@ const H = [
   },
   {id:15,e:'🌺',star:5,
    name:'반얀트리 클럽 앤 스파 서울',nameEn:'Banyan Tree Club & Spa Seoul',
-   rgn:'중구',addr:'중구 장충단로',addrEn:'Jangchungdan-ro, Jung-gu',
+   rgn:'중구',addr:'중구 장충단로 287',addrEn:'287 Jangchungdan-ro, Jung-gu',
    maxCap:500,minKRW:0,
    tags:['남산','스파','럭셔리'],tagsEn:['Namsan','Spa','Luxury'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:36,y:44},
@@ -1028,7 +1042,7 @@ const H = [
   },
   {id:16,e:'🏙️',star:5,
    name:'안다즈 서울 강남',nameEn:'Andaz Seoul Gangnam',
-   rgn:'강남',addr:'강남구 학동로',addrEn:'Hakdong-ro, Gangnam-gu',
+   rgn:'강남',addr:'강남구 논현로 854',addrEn:'854 Nonhyeon-ro, Gangnam-gu',
    maxCap:400,minKRW:0,
    tags:['강남','라이프스타일','디자인'],tagsEn:['Gangnam','Lifestyle','Design'],
    types:['기업행사','만찬·연회'],pin:{x:55,y:58},
@@ -1043,7 +1057,7 @@ const H = [
   },
   {id:17,e:'🗼',star:5,
    name:'롯데호텔 월드',nameEn:'Lotte Hotel World',
-   rgn:'잠실',addr:'송파구 올림픽로',addrEn:'Olympic-ro, Songpa-gu',
+   rgn:'잠실',addr:'송파구 올림픽로 240',addrEn:'240 Olympic-ro, Songpa-gu',
    maxCap:1000,minKRW:0,
    tags:['잠실','롯데월드','대형'],tagsEn:['Jamsil','Lotte World','Mega'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:78,y:55},
@@ -1058,7 +1072,7 @@ const H = [
   },
   {id:18,e:'🌊',star:5,
    name:'노보텔 앰배서더 서울 동대문',nameEn:'Novotel Ambassador Seoul Dongdaemun',
-   rgn:'동대문',addr:'중구 을지로',addrEn:'Euljiro, Jung-gu',
+   rgn:'동대문',addr:'중구 을지로 238',addrEn:'238 Euljiro, Jung-gu',
    maxCap:600,minKRW:0,
    tags:['동대문','DDP','도심'],tagsEn:['Dongdaemun','DDP','Central'],
    types:['기업행사','만찬·연회','세미나'],pin:{x:42,y:30},
@@ -1073,7 +1087,7 @@ const H = [
   },
   {id:19,e:'🎪',star:5,
    name:'JW 메리어트 호텔 서울',nameEn:'JW Marriott Hotel Seoul',
-   rgn:'강남',addr:'강남구 도산대로',addrEn:'Dosan-daero, Gangnam-gu',
+   rgn:'강남',addr:'서초구 신반포로 176',addrEn:'176 Sinbanpo-ro, Seocho-gu',
    maxCap:700,minKRW:0,
    tags:['강남','프리미엄','비즈니스'],tagsEn:['Gangnam','Premium','Business'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:58,y:62},
@@ -1105,7 +1119,7 @@ const H = [
   /* ─── 4성급 추가 ─── */
   {id:21,e:'🏢',star:4,
    name:'그랜드 앰배서더 서울',nameEn:'Grand Ambassador Seoul',
-   rgn:'중구',addr:'중구 장충단로',addrEn:'Jangchungdan-ro, Jung-gu',
+   rgn:'중구',addr:'중구 장충단로 287',addrEn:'287 Jangchungdan-ro, Jung-gu',
    maxCap:600,minKRW:0,
    tags:['동대입구','역사','비즈니스'],tagsEn:['Dongdaemun','Heritage','Business'],
    types:['기업행사','만찬·연회','세미나'],pin:{x:40,y:40},
@@ -1120,7 +1134,7 @@ const H = [
   },
   {id:22,e:'🌙',star:4,
    name:'몬드리안 서울 이태원',nameEn:'Mondrian Seoul Itaewon',
-   rgn:'용산',addr:'용산구 이태원로',addrEn:'Itaewon-ro, Yongsan-gu',
+   rgn:'용산',addr:'용산구 장문로 23',addrEn:'23 Jangmun-ro, Yongsan-gu',
    maxCap:300,minKRW:0,
    tags:['이태원','루프탑','트렌디'],tagsEn:['Itaewon','Rooftop','Trendy'],
    types:['기업행사','만찬·연회'],pin:{x:30,y:52},
@@ -1135,7 +1149,7 @@ const H = [
   },
   {id:23,e:'🎨',star:4,
    name:'글래드 호텔 여의도',nameEn:'Glad Hotel Yeouido',
-   rgn:'여의도',addr:'영등포구 국제금융로',addrEn:'Gukjegeumyung-ro, Yeongdeungpo-gu',
+   rgn:'여의도',addr:'영등포구 국제금융로8길 16',addrEn:'16 Gukjegeumyung-ro 8-gil, Yeongdeungpo-gu',
    maxCap:300,minKRW:0,
    tags:['여의도','금융','비즈니스'],tagsEn:['Yeouido','Finance','Business'],
    types:['기업행사','세미나','만찬·연회'],pin:{x:17,y:61},
@@ -1150,7 +1164,7 @@ const H = [
   },
   {id:24,e:'🌟',star:4,
    name:'신라스테이 삼성',nameEn:'Shilla Stay Samseong',
-   rgn:'강남',addr:'강남구 테헤란로',addrEn:'Teheran-ro, Gangnam-gu',
+   rgn:'강남',addr:'강남구 삼성로 140',addrEn:'140 Samsung-ro, Gangnam-gu',
    maxCap:200,minKRW:0,
    tags:['코엑스','강남','비즈니스'],tagsEn:['COEX','Gangnam','Business'],
    types:['기업행사','세미나'],pin:{x:63,y:53},
@@ -1165,7 +1179,7 @@ const H = [
   },
   {id:25,e:'🏡',star:4,
    name:'오크우드 프리미어 코엑스 센터',nameEn:'Oakwood Premier COEX Center',
-   rgn:'강남',addr:'강남구 영동대로',addrEn:'Yeongdong-daero, Gangnam-gu',
+   rgn:'강남',addr:'강남구 봉은사로 503',addrEn:'503 Bongeunsa-ro, Gangnam-gu',
    maxCap:180,minKRW:0,
    tags:['코엑스','강남','서비스드'],tagsEn:['COEX','Gangnam','Serviced'],
    types:['기업행사','세미나','웨딩·돌잔치'],pin:{x:61,y:51},
@@ -1179,7 +1193,7 @@ const H = [
   },
   {id:26,e:'🏛️',star:4,
    name:'노보텔 앰배서더 서울 용산',nameEn:'Novotel Ambassador Seoul Yongsan',
-   rgn:'용산',addr:'용산구 한강대로',addrEn:'Hangang-daero, Yongsan-gu',
+   rgn:'용산',addr:'용산구 한강대로 95',addrEn:'95 Hangang-daero, Yongsan-gu',
    maxCap:400,minKRW:0,
    tags:['용산','서울드래곤시티','한강뷰'],tagsEn:['Yongsan','Dragon City','Han River'],
    types:['기업행사','만찬·연회','세미나'],pin:{x:29,y:56},
@@ -1196,7 +1210,7 @@ const H = [
   /* ─── 3성급 추가 ─── */
   {id:27,e:'🌈',star:3,
    name:'이비스 앰배서더 명동',nameEn:'Ibis Ambassador Seoul Myeongdong',
-   rgn:'중구',addr:'중구 퇴계로',addrEn:'Toegye-ro, Jung-gu',
+   rgn:'중구',addr:'중구 명동8가길 14',addrEn:'14 Myeongdong 8ga-gil, Jung-gu',
    maxCap:80,minKRW:0,
    tags:['명동','가성비','도심'],tagsEn:['Myeongdong','Value','Central'],
    types:['기업행사','세미나'],pin:{x:32,y:32},
@@ -1210,7 +1224,7 @@ const H = [
   },
   {id:28,e:'🌻',star:3,
    name:'나인트리 프리미어 인사동',nameEn:'Nine Tree Premier Insadong',
-   rgn:'종로',addr:'종로구 인사동길',addrEn:'Insadong-gil, Jongno-gu',
+   rgn:'종로',addr:'종로구 인사동7길 12',addrEn:'12 Insadong 7-gil, Jongno-gu',
    maxCap:100,minKRW:0,
    tags:['인사동','문화','가성비'],tagsEn:['Insadong','Culture','Value'],
    types:['기업행사','세미나','웨딩·돌잔치'],pin:{x:27,y:22},
@@ -1225,7 +1239,7 @@ const H = [
   },
   {id:29,e:'🌴',star:3,
    name:'이비스 스타일 앰배서더 서울 강남',nameEn:'Ibis Styles Ambassador Seoul Gangnam',
-   rgn:'강남',addr:'강남구 봉은사로',addrEn:'Bongeunsa-ro, Gangnam-gu',
+   rgn:'강남',addr:'강남구 역삼로 625',addrEn:'625 Yeoksam-ro, Gangnam-gu',
    maxCap:120,minKRW:0,
    tags:['강남','가성비','역세권'],tagsEn:['Gangnam','Value','Subway'],
    types:['기업행사','세미나'],pin:{x:60,y:57},
@@ -1240,7 +1254,7 @@ const H = [
   },
   {id:30,e:'🏙',star:3,
    name:'레스케이프 호텔',nameEn:'L\'Escape Hotel',
-   rgn:'중구',addr:'중구 회현동',addrEn:'Hoehyeon-dong, Jung-gu',
+   rgn:'중구',addr:'중구 퇴계로 67',addrEn:'67 Toegye-ro, Jung-gu',
    maxCap:100,minKRW:0,
    tags:['명동','부티크','감성'],tagsEn:['Myeongdong','Boutique','Chic'],
    types:['만찬·연회','기업행사','웨딩·돌잔치'],pin:{x:31,y:35},
@@ -1362,36 +1376,36 @@ let naverInfoWin = null;    // 현재 열린 InfoWindow
 
 // 각 호텔 실제 좌표 (위도, 경도)
 const COORDS = {
-  1:  [37.5140, 127.0590],  // 그랜드 인터컨티넨탈 파르나스
-  2:  [37.5654, 126.9822],  // 롯데호텔 서울
-  3:  [37.5218, 126.9242],  // 콘래드 서울
-  4:  [37.5136, 127.1005],  // 시그니엘 서울
-  5:  [37.5711, 126.9760],  // 포시즌스 호텔 서울
-  6:  [37.5398, 126.9991],  // 그랜드 하얏트 서울
-  7:  [37.5139, 127.0572],  // 파크 하얏트 서울
-  8:  [37.5199, 126.9269],  // 페어몬트 앰배서더 서울
-  9:  [37.5714, 127.0097],  // JW 메리어트 동대문
-  10: [37.5270, 127.0374],  // 소피텔 앰배서더 서울
-  11: [37.5296, 126.9643],  // 나인트리 용산
-  12: [37.5567, 126.9242],  // 롯데시티호텔 마포
-  13: [37.5578, 126.9980],  // 서울신라호텔
-  14: [37.5660, 126.9804],  // 웨스틴 조선 서울
-  15: [37.5569, 127.0043],  // 반얀트리 클럽 앤 스파 서울
-  16: [37.5247, 127.0395],  // 안다즈 서울 강남
-  17: [37.5122, 127.1006],  // 롯데호텔 월드
-  18: [37.5660, 127.0098],  // 노보텔 앰배서더 동대문
-  19: [37.5250, 127.0440],  // JW 메리어트 호텔 서울
-  20: [37.5073, 127.0563],  // 조선 팰리스 서울 강남
-  21: [37.5567, 127.0053],  // 그랜드 앰배서더 서울
-  22: [37.5340, 126.9940],  // 몬드리안 서울 이태원
-  23: [37.5218, 126.9246],  // 글래드 호텔 여의도
-  24: [37.5090, 127.0610],  // 신라스테이 삼성
-  25: [37.5113, 127.0591],  // 오크우드 프리미어 코엑스
-  26: [37.5290, 126.9644],  // 노보텔 앰배서더 용산
-  27: [37.5591, 126.9878],  // 이비스 앰배서더 명동
-  28: [37.5736, 126.9883],  // 나인트리 프리미어 인사동
-  29: [37.5105, 127.0573],  // 이비스 스타일 강남
-  30: [37.5593, 126.9818],  // 레스케이프 호텔
+  1:  [37.5127, 127.0593],  // 그랜드 인터컨티넨탈 파르나스 — 강남구 테헤란로 521
+  2:  [37.5649, 126.9814],  // 롯데호텔 서울 — 중구 을지로 30
+  3:  [37.5252, 126.9243],  // 콘래드 서울 — 영등포구 국제금융로 10
+  4:  [37.5128, 127.1025],  // 시그니엘 서울 — 송파구 올림픽로 300 (롯데월드타워)
+  5:  [37.5704, 126.9757],  // 포시즌스 호텔 서울 — 종로구 새문안로 97
+  6:  [37.5391, 126.9988],  // 그랜드 하얏트 서울 — 용산구 소월로 322
+  7:  [37.5130, 127.0586],  // 파크 하얏트 서울 — 강남구 테헤란로 606
+  8:  [37.5260, 126.9243],  // 페어몬트 앰배서더 서울 — 영등포구 여의대로 108
+  9:  [37.5713, 127.0069],  // JW 메리어트 동대문 스퀘어 서울 — 종로구 청계천로 279
+  10: [37.5120, 127.1017],  // 소피텔 앰배서더 서울 — 송파구 잠실로 209
+  11: [37.5296, 126.9645],  // 나인트리 프리미어 로카우스 용산 — 용산구 한강대로23길 25
+  12: [37.5478, 126.9527],  // 롯데시티호텔 마포 — 마포구 마포대로 133
+  13: [37.5573, 126.9982],  // 서울신라호텔 — 중구 동호로 249
+  14: [37.5650, 126.9798],  // 웨스틴 조선 서울 — 중구 소공로 106
+  15: [37.5560, 127.0065],  // 반얀트리 클럽 앤 스파 서울 — 중구 장충단로 60
+  16: [37.5262, 127.0259],  // 안다즈 서울 강남 — 강남구 논현로 854
+  17: [37.5108, 127.1013],  // 롯데호텔 월드 — 송파구 올림픽로 240
+  18: [37.5665, 127.0083],  // 노보텔 앰배서더 서울 동대문 — 중구 을지로 238
+  19: [37.5045, 127.0036],  // JW 메리어트 호텔 서울 — 서초구 신반포로 176
+  20: [37.5047, 127.0497],  // 조선 팰리스 서울 강남 — 강남구 테헤란로 231
+  21: [37.5558, 127.0078],  // 그랜드 앰배서더 서울 — 중구 장충단로 287 (앰배서더그룹 본사 인근)
+  22: [37.5341, 126.9943],  // 몬드리안 서울 이태원 — 용산구 장문로 23
+  23: [37.5260, 126.9243],  // 글래드 호텔 여의도 — 영등포구 국제금융로8길 16
+  24: [37.5090, 127.0607],  // 신라스테이 삼성 — 강남구 삼성로 140
+  25: [37.5115, 127.0595],  // 오크우드 프리미어 코엑스 센터 — 강남구 봉은사로 503
+  26: [37.5313, 126.9648],  // 노보텔 앰배서더 서울 용산 — 용산구 한강대로 95
+  27: [37.5607, 126.9842],  // 이비스 앰배서더 서울 명동 — 중구 명동8가길 14
+  28: [37.5732, 126.9850],  // 나인트리 프리미어 인사동 — 종로구 인사동7길 12
+  29: [37.5030, 127.0260],  // 이비스 스타일 앰배서더 서울 강남 — 강남구 역삼로 625
+  30: [37.5596, 126.9830],  // 레스케이프 호텔 — 중구 퇴계로 67
 };
 
 /* ══════════════════════════════════════
@@ -1777,21 +1791,12 @@ function toggleSave(id){
         <button class="lm-cls" onclick="closeOvl()">✕</button>
         <div class="lm-icon">🔐</div>
         <div class="lm-ttl">${ko?'로그인 후 이용 가능합니다':'Please log in to continue'}</div>
-        <div class="lm-sub">${ko?'저장하기 기능은 로그인 회원만 이용할 수 있습니다.\n소셜 계정으로 간편하게 시작하세요.':'The Save feature is available for logged-in members only.\nSign in quickly with your social account.'}</div>
-        <div class="lm-btns">
-          <button class="lm-kakao" onclick="socialLogin('kakao')">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5C4.86 1.5 1.5 4.08 1.5 7.26c0 2.04 1.32 3.84 3.3 4.86L3.9 15l3.48-2.28c.54.06 1.08.12 1.62.12 4.14 0 7.5-2.58 7.5-5.76S13.14 1.5 9 1.5z" fill="#3C1E1E"/></svg>
-            ${ko?'카카오로 시작하기':'Continue with Kakao'}
-          </button>
-          <button class="lm-naver" onclick="socialLogin('naver')">
-            <span style="font-weight:800;font-size:14px;color:#fff">N</span>
-            ${ko?'네이버로 시작하기':'Continue with Naver'}
-          </button>
-          <button class="lm-google" onclick="socialLogin('google')">
-            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M15.68 8.18c0-.57-.05-1.11-.14-1.64H8v3.1h4.3a3.67 3.67 0 01-1.6 2.41v2h2.58c1.51-1.39 2.4-3.44 2.4-5.87z" fill="#4285F4"/><path d="M8 16c2.16 0 3.97-.72 5.3-1.94l-2.59-2.01c-.71.48-1.63.76-2.71.76-2.08 0-3.85-1.41-4.48-3.3H.85v2.07A8 8 0 008 16z" fill="#34A853"/><path d="M3.52 9.51A4.8 4.8 0 013.27 8c0-.52.09-1.03.25-1.51V4.42H.85A8 8 0 000 8c0 1.29.31 2.51.85 3.58l2.67-2.07z" fill="#FBBC05"/><path d="M8 3.18c1.17 0 2.22.4 3.05 1.2l2.28-2.28A8 8 0 00.85 4.42L3.52 6.49C4.15 4.6 5.92 3.18 8 3.18z" fill="#EA4335"/></svg>
-            ${ko?'구글로 시작하기':'Continue with Google'}
-          </button>
-        </div>
+        <div class="lm-sub">${ko?'저장하기 기능은 로그인 회원만 이용할 수 있습니다.':'The Save feature is available for logged-in members only.'}</div>
+        <button onclick="closeOvl();setTimeout(openLogin,150)"
+          style="margin-top:22px;width:100%;padding:15px;background:var(--ink);color:#fff;
+          border:none;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.3px">
+          ${ko?'로그인 / 회원가입':'Login / Sign up'}
+        </button>
       </div>
     `);
     return;
@@ -1901,18 +1906,58 @@ function openLogin(){
   `);
 }
 
+/* 카카오 SDK 초기화 */
+if(typeof Kakao !== 'undefined' && !Kakao.isInitialized()){
+  Kakao.init('ace1f28b8bf1ed57f1122b718e686a76');
+}
+
 function socialLogin(provider){
   const ko=lang==='ko';
   const names={kakao:ko?'카카오':'Kakao',naver:ko?'네이버':'Naver',google:'Google'};
-  // ── 실제 OAuth 연동 전 안내 모달 ──
+
+  if(provider==='kakao'){
+    // ── 카카오 실제 로그인 ──
+    if(typeof Kakao === 'undefined' || !Kakao.isInitialized()){
+      alert(ko?'카카오 SDK 로딩 중입니다. 잠시 후 다시 시도해 주세요.':'Kakao SDK loading. Please try again.');
+      return;
+    }
+    Kakao.Auth.login({
+      success: function(authObj){
+        Kakao.API.request({
+          url: '/v2/user/me',
+          success: function(res){
+            const profile = res.kakao_account?.profile;
+            const name = profile?.nickname || '사용자';
+            const avatar = profile?.profile_image_url || '';
+            curUser = { name, provider:'kakao', email: res.kakao_account?.email||'', avatar };
+            closeOvl();
+            const initial = name.charAt(0);
+            document.getElementById('loginBtn').innerHTML=`
+              <div class="login-avatar">${initial}</div>
+              <span class="ko">${name} 님</span><span class="en">${name}</span>
+            `;
+            showToast(ko?`${name} 님, 환영합니다! 🎉`:`Welcome, ${name}! 🎉`);
+          },
+          fail: function(err){ console.error(err); alert(ko?'사용자 정보를 가져올 수 없습니다.':'Failed to get user info.'); }
+        });
+      },
+      fail: function(err){
+        console.error(err);
+        alert(ko?'카카오 로그인에 실패했습니다.':'Kakao login failed.');
+      }
+    });
+    return;
+  }
+
+  // ── 네이버 / 구글: 준비 중 안내 ──
   setOvlContent(`
     <div class="login-modal">
       <button class="lm-cls" onclick="closeOvl()">✕</button>
       <div class="lm-icon">🔧</div>
       <div class="lm-ttl">${ko?`${names[provider]} 로그인 준비 중`:`${names[provider]} Login Coming Soon`}</div>
       <div class="lm-sub">${ko
-        ?`${names[provider]} 로그인은 API 키 등록 후 이용하실 수 있습니다.\n개발 가이드 문서의 PART 2를 참고해 주세요.`
-        :`${names[provider]} login will be available after API key registration.\nPlease refer to PART 2 of the developer guide.`
+        ?`${names[provider]} 로그인은 API 키 등록 후 이용하실 수 있습니다.`
+        :`${names[provider]} login will be available after API key registration.`
       }</div>
       <button onclick="closeOvl()" style="margin-top:20px;width:100%;padding:13px;background:var(--ink);color:#fff;border:none;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer">
         ${ko?'확인':'OK'}
@@ -1972,5 +2017,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 });
 </script>
+
 </body>
 </html>
