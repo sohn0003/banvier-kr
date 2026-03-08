@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2318160f'/><text x='7' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' fill='%23c8a96e'>B</text><text x='17' y='22' font-family='Georgia,serif' font-size='13' font-style='italic' fill='%23c8a96e'>v</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=3mliteco35"></script>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=3mliteco35&submodules=geocoder"></script>
 <!-- 카카오 SDK -->
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
 
@@ -247,10 +247,7 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
   cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .2s}
 .s-go:hover{background:var(--gold)}
 
-/* ── CARD LOGO ── */
-.c-logo{width:76px;height:76px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;overflow:hidden;position:relative}
+/* ── CARD LOGO (legacy img support) ── */
 .c-logo img{width:100%;height:100%;object-fit:contain;padding:8px}
 .c-logo-svg{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
 .workspace{display:flex;flex:1;overflow:hidden;min-height:0}
@@ -270,28 +267,33 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
 .cards::-webkit-scrollbar-thumb{background:var(--warm-gray);border-radius:3px}
 
 /* ── CARD ── */
-.card{border:1.5px solid #eae4d8;border-radius:var(--r);padding:14px;cursor:pointer;
-  display:flex;gap:12px;position:relative;overflow:hidden;transition:all .22s var(--ease);background:#fff}
+.card{border:1.5px solid #eae4d8;border-radius:var(--r);padding:18px 14px;cursor:pointer;
+  display:flex;gap:14px;position:relative;overflow:hidden;transition:all .22s var(--ease);background:#fff;
+  min-height:110px}
 .card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
   background:var(--gold);opacity:0;transition:opacity .2s}
 .card:hover{border-color:var(--gold);box-shadow:var(--sh-md);transform:translateY(-1px)}
 .card:hover::after,.card.sel::after{opacity:1}
 .card.sel{border-color:var(--ink);background:#faf8f2;box-shadow:var(--sh-md)}
 
-.c-thumb{width:76px;min-height:76px;border-radius:10px;
+/* 성급 뱃지 컨테이너 */
+.c-logo{width:86px;min-width:86px;height:86px;flex-shrink:0;align-self:center;
+  display:flex;align-items:center;justify-content:center}
+
+.c-thumb{width:82px;min-height:82px;border-radius:10px;
   background:linear-gradient(135deg,var(--ink) 0%,#2d2820 100%);
   display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;align-self:center}
-.c-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
-.c-r1{display:flex;align-items:center;gap:6px;margin-bottom:4px}
-.c-name{font-family:var(--ff-serif);font-size:14px;font-weight:600;color:var(--ink);
-  line-height:1.4;flex:1;word-break:keep-all;word-wrap:break-word;white-space:normal}
-.c-stars{color:var(--gold);font-size:10px;flex-shrink:0;letter-spacing:.5px;white-space:nowrap}
-.c-addr{font-size:11px;color:var(--mid-gray);margin-bottom:6px;display:flex;align-items:center;gap:3px}
-.c-chips{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:6px}
-.ch{background:var(--cream);color:var(--ink-soft);font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500}
+.c-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.c-r1{display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.c-name{font-family:var(--ff-serif);font-size:15.5px;font-weight:700;color:var(--ink);
+  line-height:1.45;flex:1;word-break:keep-all;word-wrap:break-word;white-space:normal;min-width:0}
+.c-stars{color:var(--gold);font-size:11px;flex-shrink:0;letter-spacing:.5px;white-space:nowrap;padding-top:2px}
+.c-addr{font-size:11.5px;color:var(--mid-gray);margin-bottom:4px;display:flex;align-items:center;gap:3px}
+.c-chips{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+.ch{background:var(--cream);color:var(--ink-soft);font-size:10.5px;padding:3px 8px;border-radius:4px;font-weight:500}
 .ch.g{background:var(--gold-pale);color:var(--gold)}
 .c-ft{display:flex;justify-content:space-between;align-items:center}
-.c-cap{font-size:11px;color:var(--mid-gray)}
+.c-cap{font-size:11.5px;color:var(--mid-gray)}
 .c-price{font-size:12.5px;font-weight:700;color:var(--ink)}
 .c-price small{font-size:10px;font-weight:400;color:var(--mid-gray)}
 
@@ -790,12 +792,11 @@ function starBadge(star){
     4:{bg:'#1e3a5f',accent:'#7eb8d4',label:'4★'},
     3:{bg:'#2d4a1e',accent:'#8fbc6a',label:'3★'},
   }[star]||{bg:'#333',accent:'#ccc',label:star+'★'};
-  return `<div style="width:76px;height:76px;border-radius:10px;background:${cfg.bg};
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    flex-shrink:0;align-self:center;text-align:center">
-    <div style="font-size:18px;color:${cfg.accent};letter-spacing:1px;line-height:1">${cfg.label}</div>
-    <div style="width:36px;height:1px;background:${cfg.accent};opacity:.5;margin:5px auto"></div>
-    <div style="font-size:8px;color:rgba(255,255,255,.55);letter-spacing:.5px">HOTEL</div>
+  return `<div style="width:100%;height:100%;border-radius:10px;background:${cfg.bg};
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;">
+    <div style="font-size:22px;color:${cfg.accent};letter-spacing:1px;line-height:1;font-weight:700">${cfg.label}</div>
+    <div style="width:40px;height:1px;background:${cfg.accent};opacity:.5;margin:6px auto"></div>
+    <div style="font-size:9px;color:rgba(255,255,255,.55);letter-spacing:.8px;font-weight:400">HOTEL</div>
   </div>`;
 }
 
@@ -1342,19 +1343,23 @@ function renderCards(list){
   }
   const ko=lang==='ko';
   el.innerHTML=list.map((h,i)=>{
-    const stars='★'.repeat(h.star)+'☆'.repeat(5-h.star);
     return`<div class="card${h.id===selHotel?' sel':''} fu" style="animation-delay:${i*.035}s"
       id="card-${h.id}" onclick="selectH(${h.id})">
       <div class="c-logo">${starBadge(h.star)}</div>
       <div class="c-info">
         <div class="c-r1">
-          <div class="c-name ko">${h.name}</div>
-          <div class="c-name en">${h.nameEn}</div>
+          <div class="c-name">
+            <span class="ko">${h.name}</span>
+            <span class="en">${h.nameEn}</span>
+          </div>
           <div class="c-stars">${'★'.repeat(h.star)}</div>
         </div>
-        <div class="c-addr"><span class="ko">${h.addr}</span><span class="en">${h.addrEn}</span></div>
+        <div class="c-addr">
+          <span class="ko">📍 ${h.addr}</span>
+          <span class="en">📍 ${h.addrEn}</span>
+        </div>
         <div class="c-chips">
-          ${h.tags.map((t,i)=>`<span class="ch ko">${t}</span><span class="ch en">${h.tagsEn[i]}</span>`).join('')}
+          ${h.tags.map((t,idx)=>`<span class="ch ko">${t}</span><span class="ch en">${h.tagsEn[idx]}</span>`).join('')}
           <span class="ch g ko">${h.types[0]}</span>
           <span class="ch g en">${h.types[0]==='기업행사'?'Corporate':h.types[0]==='웨딩·돌잔치'?'Wedding':'Dining'}</span>
         </div>
@@ -1374,38 +1379,41 @@ let naverMap = null;
 let naverMarkers = {};      // id → naver.maps.Marker
 let naverInfoWin = null;    // 현재 열린 InfoWindow
 
-// 각 호텔 실제 좌표 (위도, 경도)
+// 각 호텔 실제 좌표 (위도, 경도) — Geocoding API가 자동 정확화함
 const COORDS = {
-  1:  [37.5127, 127.0593],  // 그랜드 인터컨티넨탈 파르나스 — 강남구 테헤란로 521
-  2:  [37.5649, 126.9814],  // 롯데호텔 서울 — 중구 을지로 30
-  3:  [37.5252, 126.9243],  // 콘래드 서울 — 영등포구 국제금융로 10
-  4:  [37.5128, 127.1025],  // 시그니엘 서울 — 송파구 올림픽로 300 (롯데월드타워)
-  5:  [37.5704, 126.9757],  // 포시즌스 호텔 서울 — 종로구 새문안로 97
-  6:  [37.5391, 126.9988],  // 그랜드 하얏트 서울 — 용산구 소월로 322
-  7:  [37.5130, 127.0586],  // 파크 하얏트 서울 — 강남구 테헤란로 606
-  8:  [37.5260, 126.9243],  // 페어몬트 앰배서더 서울 — 영등포구 여의대로 108
-  9:  [37.5713, 127.0069],  // JW 메리어트 동대문 스퀘어 서울 — 종로구 청계천로 279
-  10: [37.5120, 127.1017],  // 소피텔 앰배서더 서울 — 송파구 잠실로 209
-  11: [37.5296, 126.9645],  // 나인트리 프리미어 로카우스 용산 — 용산구 한강대로23길 25
-  12: [37.5478, 126.9527],  // 롯데시티호텔 마포 — 마포구 마포대로 133
-  13: [37.5573, 126.9982],  // 서울신라호텔 — 중구 동호로 249
-  14: [37.5650, 126.9798],  // 웨스틴 조선 서울 — 중구 소공로 106
-  15: [37.5560, 127.0065],  // 반얀트리 클럽 앤 스파 서울 — 중구 장충단로 60
-  16: [37.5262, 127.0259],  // 안다즈 서울 강남 — 강남구 논현로 854
-  17: [37.5108, 127.1013],  // 롯데호텔 월드 — 송파구 올림픽로 240
-  18: [37.5665, 127.0083],  // 노보텔 앰배서더 서울 동대문 — 중구 을지로 238
-  19: [37.5045, 127.0036],  // JW 메리어트 호텔 서울 — 서초구 신반포로 176
-  20: [37.5047, 127.0497],  // 조선 팰리스 서울 강남 — 강남구 테헤란로 231
-  21: [37.5558, 127.0078],  // 그랜드 앰배서더 서울 — 중구 장충단로 287 (앰배서더그룹 본사 인근)
-  22: [37.5341, 126.9943],  // 몬드리안 서울 이태원 — 용산구 장문로 23
-  23: [37.5260, 126.9243],  // 글래드 호텔 여의도 — 영등포구 국제금융로8길 16
-  24: [37.5090, 127.0607],  // 신라스테이 삼성 — 강남구 삼성로 140
-  25: [37.5115, 127.0595],  // 오크우드 프리미어 코엑스 센터 — 강남구 봉은사로 503
-  26: [37.5313, 126.9648],  // 노보텔 앰배서더 서울 용산 — 용산구 한강대로 95
-  27: [37.5607, 126.9842],  // 이비스 앰배서더 서울 명동 — 중구 명동8가길 14
-  28: [37.5732, 126.9850],  // 나인트리 프리미어 인사동 — 종로구 인사동7길 12
-  29: [37.5030, 127.0260],  // 이비스 스타일 앰배서더 서울 강남 — 강남구 역삼로 625
-  30: [37.5596, 126.9830],  // 레스케이프 호텔 — 중구 퇴계로 67
+  // ── 5성급 ─────────────────────────────────────────────────────────
+  1:  [37.5127, 127.0592],  // 그랜드 인터컨티넨탈 파르나스  강남구 테헤란로 521  (삼성역 북서)
+  2:  [37.5649, 126.9826],  // 롯데호텔 서울               중구 을지로 30         (을지로입구역)
+  3:  [37.5254, 126.9247],  // 콘래드 서울                 영등포구 국제금융로 10  (IFC몰)
+  4:  [37.5127, 127.1022],  // 시그니엘 서울               송파구 올림픽로 300    (롯데월드타워)
+  5:  [37.5711, 126.9758],  // 포시즌스 호텔 서울          종로구 새문안로 97      (광화문역 북서)
+  6:  [37.5396, 126.9989],  // 그랜드 하얏트 서울          용산구 소월로 322       (남산 서쪽 기슭)
+  7:  [37.5128, 127.0587],  // 파크 하얏트 서울            강남구 테헤란로 606     (삼성역 남동)
+  8:  [37.5261, 126.9240],  // 페어몬트 앰배서더 서울      영등포구 여의대로 108   (파크원)
+  9:  [37.5707, 127.0070],  // JW 메리어트 동대문 스퀘어   종로구 청계천로 279     (동대문역)
+  10: [37.5124, 127.1011],  // 소피텔 앰배서더 서울        송파구 잠실로 209       (잠실역 동편)
+  11: [37.5295, 126.9648],  // 나인트리 프리미어 로카우스  용산구 한강대로23길 25  (용산역 앞)
+  12: [37.5480, 126.9530],  // 롯데시티호텔 마포           마포구 마포대로 133     (공덕역)
+  13: [37.5574, 127.0046],  // 서울신라호텔                중구 동호로 249         (장충동)
+  14: [37.5649, 126.9800],  // 웨스틴 조선 서울            중구 소공로 106         (시청역 인근)
+  15: [37.5572, 127.0073],  // 반얀트리 클럽 앤 스파       중구 장충단로 60        (동국대 인근)
+  16: [37.5262, 127.0266],  // 안다즈 서울 강남            강남구 논현로 854       (압구정로데오역)
+  17: [37.5112, 127.1006],  // 롯데호텔 월드               송파구 올림픽로 240     (잠실역 남서)
+  18: [37.5660, 127.0083],  // 노보텔 앰배서더 동대문      중구 을지로 238         (을지로4가)
+  19: [37.5017, 127.0063],  // JW 메리어트 호텔 서울       서초구 신반포로 176     (고속터미널역)
+  20: [37.5037, 127.0445],  // 조선 팰리스 서울 강남       강남구 테헤란로 231     (역삼역 인근)
+  // ── 4성급 ─────────────────────────────────────────────────────────
+  21: [37.5555, 127.0104],  // 그랜드 앰배서더 서울        중구 장충단로 287       (동대입구역)
+  22: [37.5345, 126.9927],  // 몬드리안 서울 이태원        용산구 장문로 23        (이태원역)
+  23: [37.5239, 126.9249],  // 글래드 호텔 여의도          영등포구 국제금융로8길 16
+  24: [37.5097, 127.0558],  // 신라스테이 삼성             강남구 삼성로 140       (삼성역 남)
+  25: [37.5115, 127.0577],  // 오크우드 프리미어 코엑스    강남구 봉은사로 503     (코엑스 남측)
+  26: [37.5265, 126.9658],  // 노보텔 앰배서더 서울 용산   용산구 한강대로 95      (서울드래곤시티)
+  // ── 3성급 ─────────────────────────────────────────────────────────
+  27: [37.5602, 126.9863],  // 이비스 앰배서더 서울 명동   중구 명동8가길 14
+  28: [37.5739, 126.9856],  // 나인트리 프리미어 인사동    종로구 인사동7길 12
+  29: [37.4985, 127.0468],  // 이비스 스타일 앰배서더 강남 강남구 역삼로 625
+  30: [37.5584, 126.9818],  // 레스케이프 호텔             중구 퇴계로 67          (명동 남측)
 };
 
 /* ══════════════════════════════════════
@@ -1423,6 +1431,8 @@ function initNaverMap(){
     scaleControl: false,
   });
   buildMarkers(H);
+  // 백그라운드에서 Geocoding으로 좌표 자동 정확화
+  setTimeout(refineCoordsByGeocoding, 1500);
 }
 
 /* ══════════════════════════════════════
@@ -1491,31 +1501,61 @@ function buildMarkers(list){
   list.forEach(h=>{
     const coords = COORDS[h.id];
     if(!coords) return;
-    const lbl = PIN_LABELS[h.id]?.[lang==='ko'?'ko':'en'] || h.name;
-    const isActive = h.id === selHotel;
+    placeMarker(h, coords[0], coords[1]);
+  });
+}
 
-    const marker = new naver.maps.Marker({
-      position: new naver.maps.LatLng(coords[0], coords[1]),
-      map: naverMap,
-      title: h.name,
-      icon: {
-        url: makePinSvg(lbl, isActive),
-        size: new naver.maps.Size(76, 50),
-        anchor: new naver.maps.Point(38, 50),
-      },
-      zIndex: isActive ? 20 : 10,
+function placeMarker(h, lat, lng){
+  const lbl = PIN_LABELS[h.id]?.[lang==='ko'?'ko':'en'] || h.name;
+  const isActive = h.id === selHotel;
+
+  // 기존 마커가 있으면 제거
+  if(naverMarkers[h.id]) naverMarkers[h.id].setMap(null);
+
+  const marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(lat, lng),
+    map: naverMap,
+    title: h.name,
+    icon: {
+      url: makePinSvg(lbl, isActive),
+      size: new naver.maps.Size(76, 50),
+      anchor: new naver.maps.Point(38, 50),
+    },
+    zIndex: isActive ? 20 : 10,
+  });
+
+  naver.maps.Event.addListener(marker, 'click', ()=>{
+    selHotel = h.id;
+    run();
+    showNaverPopup(h.id);
+    const c = document.getElementById('card-'+h.id);
+    if(c) c.scrollIntoView({behavior:'smooth',block:'nearest'});
+    if(window.innerWidth<=900) switchTab('map');
+  });
+
+  naverMarkers[h.id] = marker;
+}
+
+// 네이버 Geocoding API로 주소→좌표 정확화 (페이지 로드 후 백그라운드 실행)
+function refineCoordsByGeocoding(){
+  if(!window.naver || !naver.maps || !naver.maps.Service) return;
+  H.forEach(h=>{
+    const addr = h.addr; // 정확한 도로명 주소 사용
+    naver.maps.Service.geocode({query: addr}, function(status, response){
+      if(status !== naver.maps.Service.Status.OK) return;
+      const result = response.v2.addresses;
+      if(!result || result.length === 0) return;
+      const item = result[0];
+      const newLat = parseFloat(item.y);
+      const newLng = parseFloat(item.x);
+      if(!newLat || !newLng) return;
+      // COORDS 업데이트
+      COORDS[h.id] = [newLat, newLng];
+      // 마커 재배치
+      if(naverMarkers[h.id]){
+        naverMarkers[h.id].setPosition(new naver.maps.LatLng(newLat, newLng));
+      }
     });
-
-    naver.maps.Event.addListener(marker, 'click', ()=>{
-      selHotel = h.id;
-      run();
-      showNaverPopup(h.id);
-      const c = document.getElementById('card-'+h.id);
-      if(c) c.scrollIntoView({behavior:'smooth',block:'nearest'});
-      if(window.innerWidth<=900) switchTab('map');
-    });
-
-    naverMarkers[h.id] = marker;
   });
 }
 
