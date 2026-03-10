@@ -1444,6 +1444,36 @@ function initNaverMap(){
     scaleControl: false,
   });
   buildMarkers(H);
+
+  /* ══════════════════════════════════════
+     🔧 좌표 디버그 도구
+     - 지도 아무 곳이나 클릭 → 해당 위치 좌표 표시
+     - 사용법: 틀린 마커 찾기 → 올바른 위치 클릭 → 좌표 복사 → 알려주기
+  ══════════════════════════════════════ */
+  // 디버그 패널 생성
+  const dbgBox = document.createElement('div');
+  dbgBox.id = 'coordDebug';
+  dbgBox.style.cssText = `
+    position:absolute; bottom:48px; left:50%; transform:translateX(-50%);
+    background:rgba(24,22,15,0.92); color:#c8a96e;
+    font-family:monospace; font-size:12px; padding:8px 14px;
+    border:1px solid #c8a96e; border-radius:6px;
+    pointer-events:none; z-index:9999; display:none;
+    white-space:nowrap; letter-spacing:0.03em;
+  `;
+  document.getElementById('naverMap').style.position = 'relative';
+  document.getElementById('naverMap').appendChild(dbgBox);
+
+  // 지도 클릭 → 좌표 표시
+  naver.maps.Event.addListener(naverMap, 'click', function(e){
+    const lat = e.coord.y.toFixed(6);
+    const lng = e.coord.x.toFixed(6);
+    dbgBox.style.display = 'block';
+    dbgBox.textContent = `📍 클릭 좌표  lat: ${lat}  lng: ${lng}   (복사 후 알려주세요)`;
+    // 3초 후 자동 숨김
+    clearTimeout(dbgBox._t);
+    dbgBox._t = setTimeout(() => { dbgBox.style.display='none'; }, 5000);
+  });
 }
 
 /* ══════════════════════════════════════
@@ -1492,6 +1522,14 @@ function placeMarker(h, lat, lng){
   });
 
   naver.maps.Event.addListener(marker, 'click', () => {
+    // 🔧 디버그: 마커 클릭 시 호텔 정보 표시
+    const dbgBox = document.getElementById('coordDebug');
+    if(dbgBox){
+      dbgBox.style.display = 'block';
+      dbgBox.textContent = `🏨 ID:${h.id} "${h.name}"  현재좌표: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+      clearTimeout(dbgBox._t);
+      dbgBox._t = setTimeout(() => { dbgBox.style.display='none'; }, 5000);
+    }
     selHotel = h.id;
     run();
     showNaverPopup(h.id);
