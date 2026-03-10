@@ -1390,53 +1390,18 @@ let naverMap = null;
 let naverMarkers = {};      // id → naver.maps.Marker
 let naverInfoWin = null;    // 현재 열린 InfoWindow
 
-// 각 호텔 실제 좌표 (위도, 경도) — Geocoding API가 자동 정확화함
-// ══ 좌표는 네이버 Geocoding API가 자동 보정합니다 ══
-// addr 필드의 도로명주소 → 네이버 서버 정확 좌표로 덮어씁니다
-// 아래는 초기 fallback 좌표 (로드 즉시 표시용)
-// ★ 소수점 6자리 정밀 좌표 (네이버 지도 직접 검증)
-// Geocoding은 추가 보정용으로만 사용
-const COORDS = {
-   1: [37.511997, 127.059622],  // 그랜드 인터컨티넨탈 파르나스
-   2: [37.564855, 126.981963],  // 롯데호텔 서울
-   3: [37.525879, 126.923877],  // 콘래드 서울
-   4: [37.512757, 127.102193],  // 시그니엘 서울
-   5: [37.571539, 126.975765],  // 포시즌스 호텔 서울
-   6: [37.539560, 126.998557],  // 그랜드 하얏트 서울
-   7: [37.508819, 127.062101],  // 파크 하얏트 서울
-   8: [37.526001, 126.924076],  // 페어몬트 앰배서더 서울
-   9: [37.570723, 127.007017],  // JW 메리어트 동대문 스퀘어
-  10: [37.513029, 127.101844],  // 소피텔 앰배서더 서울
-  11: [37.529854, 126.965384],  // 나인트리 프리미어 로카우스
-  12: [37.548897, 126.952762],  // 롯데시티호텔 마포
-  13: [37.557183, 127.005117],  // 서울신라호텔
-  14: [37.564790, 126.979825],  // 웨스틴 조선 서울
-  15: [37.556769, 127.006424],  // 반얀트리 클럽 앤 스파 서울
-  16: [37.526527, 127.031654],  // 안다즈 서울 강남 (논현로 854, 압구정역 3번)
-  17: [37.511048, 127.098656],  // 롯데호텔 월드
-  18: [37.566262, 127.007825],  // 노보텔 앰배서더 서울 동대문
-  19: [37.504267, 127.004994],  // JW 메리어트 호텔 서울
-  20: [37.504872, 127.048803],  // 조선 팰리스 서울 강남 (테헤란로 231)
-  21: [37.555224, 127.009985],  // 앰배서더 서울 풀만
-  22: [37.535104, 126.993902],  // 몬드리안 서울 이태원
-  23: [37.524340, 126.924682],  // 글래드 호텔 여의도
-  24: [37.509424, 127.062285],  // 신라스테이 삼성 (영동대로 506)
-  25: [37.511365, 127.057830],  // 오크우드 프리미어 코엑스 센터
-  26: [37.527156, 126.965447],  // 노보텔 앰배서더 서울 용산
-  27: [37.562744, 126.985531],  // 이비스 앰배서더 서울 명동
-  28: [37.574213, 126.985392],  // 나인트리 프리미어 인사동
-  29: [37.497055, 127.047713],  // 이비스 스타일 앰배서더 강남
-  30: [37.558854, 126.982031],  // 레스케이프 호텔
-  99: [37.497900, 127.027630],  // [TEST]
-};
-
 /* ══════════════════════════════════════
-   NAVER MAP — 초기화
+   NAVER MAP — 초기화 및 Geocoding
+   손으로 입력한 좌표 없음
+   네이버 서버가 호텔명으로 직접 위치 검색
 ══════════════════════════════════════ */
+
+// 런타임에 Geocoding 결과로 채워짐 (초기값 없음)
+const COORDS = {};
+
 function initNaverMap(){
-  const seoulCenter = new naver.maps.LatLng(37.5367, 127.0000);
   naverMap = new naver.maps.Map('naverMap', {
-    center: seoulCenter,
+    center: new naver.maps.LatLng(37.5367, 127.0000),
     zoom: 12,
     mapTypeId: naver.maps.MapTypeId.NORMAL,
     zoomControl: false,
@@ -1444,8 +1409,59 @@ function initNaverMap(){
     mapDataControl: true,
     scaleControl: false,
   });
-  // ★ 하드코딩된 정밀 좌표로 마커 즉시 배치 (Geocoding 불필요)
-  buildMarkers(H);
+
+  // 네이버 Geocoding으로 호텔명 검색 → 좌표 취득 → 마커 배치
+  // 500ms 간격 순차 처리 (Rate Limit 완전 방어)
+  const targets = H.filter(h => !h.hidden);
+  let idx = 0;
+
+  function nextGeocode(){
+    if(idx >= targets.length) return;
+    const h = targets[idx++];
+
+    // 호텔 전체명으로 검색 (주소보다 정확도 높음)
+    naver.maps.Service.geocode(
+      { query: h.name },
+      function(status, response){
+        if(status === naver.maps.Service.Status.OK){
+          const items = response.v2?.addresses;
+          if(items && items.length > 0){
+            const lat = parseFloat(items[0].y);
+            const lng = parseFloat(items[0].x);
+            COORDS[h.id] = [lat, lng];
+            placeMarker(h, lat, lng);
+            console.log(`✅ ${h.name} → ${lat}, ${lng}`);
+          } else {
+            // 호텔명 검색 실패 시 주소로 재시도
+            naver.maps.Service.geocode(
+              { query: h.addr },
+              function(s2, r2){
+                if(s2 === naver.maps.Service.Status.OK){
+                  const it2 = r2.v2?.addresses;
+                  if(it2 && it2.length > 0){
+                    const lat = parseFloat(it2[0].y);
+                    const lng = parseFloat(it2[0].x);
+                    COORDS[h.id] = [lat, lng];
+                    placeMarker(h, lat, lng);
+                    console.log(`✅ ${h.name} (주소검색) → ${lat}, ${lng}`);
+                  }
+                } else {
+                  console.warn(`❌ ${h.name} — 검색 실패`);
+                }
+                setTimeout(nextGeocode, 500);
+              }
+            );
+            return; // 재시도 안에서 nextGeocode 호출
+          }
+        } else {
+          console.warn(`❌ ${h.name} — status: ${status}`);
+        }
+        setTimeout(nextGeocode, 500);
+      }
+    );
+  }
+
+  nextGeocode(); // 시작
 }
 
 /* ══════════════════════════════════════
