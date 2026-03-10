@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2318160f'/><text x='7' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' fill='%23c8a96e'>B</text><text x='17' y='22' font-family='Georgia,serif' font-size='13' font-style='italic' fill='%23c8a96e'>v</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=3mliteco35&submodules=geocoder"></script>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=3mliteco35&submodules=geocoder"></script>
 <!-- 카카오 SDK -->
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
 
@@ -269,7 +269,7 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
 /* ── CARD ── */
 .card{border:1.5px solid #eae4d8;border-radius:var(--r);padding:18px 14px;cursor:pointer;
   display:flex;gap:14px;position:relative;overflow:hidden;transition:all .22s var(--ease);background:#fff;
-  min-height:110px}
+  min-height:96px}
 .card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
   background:var(--gold);opacity:0;transition:opacity .2s}
 .card:hover{border-color:var(--gold);box-shadow:var(--sh-md);transform:translateY(-1px)}
@@ -285,8 +285,8 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
   display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;align-self:center}
 .c-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:4px}
 .c-r1{display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
-.c-name{font-family:var(--ff-serif);font-size:15.5px;font-weight:700;color:var(--ink);
-  line-height:1.45;flex:1;word-break:keep-all;word-wrap:break-word;white-space:normal;min-width:0}
+.c-name{font-family:var(--ff-serif);font-size:13.5px;font-weight:700;color:var(--ink);
+  line-height:1.3;flex:1;word-break:keep-all;word-wrap:break-word;white-space:normal;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .c-stars{color:var(--gold);font-size:11px;flex-shrink:0;letter-spacing:.5px;white-space:nowrap;padding-top:2px}
 .c-addr{font-size:11.5px;color:var(--mid-gray);margin-bottom:4px;display:flex;align-items:center;gap:3px}
 .c-chips{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
@@ -608,8 +608,8 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
       <button class="lang-b on" onclick="setLang('ko')">KO</button>
       <button class="lang-b" onclick="setLang('en')">EN</button>
     </div>
-    <button class="hdr-btn ko" onclick="openQuote(null)">호텔 등록 문의</button>
-    <button class="hdr-btn en" onclick="openQuote(null)">List Your Venue</button>
+    <button class="hdr-btn ko" onclick="openVenueRegister()">연회장 등록 문의</button>
+    <button class="hdr-btn en" onclick="openVenueRegister()">Register Venue</button>
     <button class="login-btn" id="loginBtn" onclick="curUser?openMyPage():openLogin()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span class="ko">로그인</span><span class="en">Login</span>
@@ -627,8 +627,8 @@ body{font-family:var(--ff-sans);background:var(--cream);color:var(--ink);
     <button class="mob-cls" onclick="closeMobMenu()">✕</button>
     <button class="mob-item ko" onclick="closeMobMenu();openLogin()">🔐 로그인 / 회원가입</button>
     <button class="mob-item en" onclick="closeMobMenu();openLogin()">🔐 Login / Sign Up</button>
-    <button class="mob-item ko" onclick="closeMobMenu();openQuote(null)">🏨 호텔 등록 문의</button>
-    <button class="mob-item en" onclick="closeMobMenu();openQuote(null)">🏨 List Your Venue</button>
+    <button class="mob-item ko" onclick="closeMobMenu();openVenueRegister()">🏨 연회장 등록 문의</button>
+    <button class="mob-item en" onclick="closeMobMenu();openVenueRegister()">🏨 Register Venue</button>
     <button class="mob-item ko" onclick="closeMobMenu()">❓ 서비스 소개</button>
     <button class="mob-item en" onclick="closeMobMenu()">❓ About Banvier</button>
     <div style="margin-top:auto">
@@ -1028,7 +1028,7 @@ const H = [
   },
   {id:15,e:'🌺',star:5,
    name:'반얀트리 클럽 앤 스파 서울',nameEn:'Banyan Tree Club & Spa Seoul',
-   rgn:'중구',addr:'중구 장충단로 287',addrEn:'287 Jangchungdan-ro, Jung-gu',
+   rgn:'중구',addr:'중구 장충단로 60',addrEn:'60 Jangchungdan-ro, Jung-gu',
    maxCap:500,minKRW:0,
    tags:['남산','스파','럭셔리'],tagsEn:['Namsan','Spa','Luxury'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:36,y:44},
@@ -1268,6 +1268,23 @@ const H = [
    am:['부티크인테리어','스파','라이브러리','케이터링','주차'],
    amEn:['Boutique Interior','Spa','Library','Catering','Parking'],
   },
+  // ── 관리자 TEST 전용 (숨김 — 검색창에 "test" 입력 시만 표시) ──
+  {id:99,e:'🧪',star:5,
+   name:'[TEST] Banvier 견적테스트 호텔',nameEn:'[TEST] Banvier Quote Test Hotel',
+   rgn:'강남',addr:'강남구 테헤란로 152',addrEn:'152 Teheran-ro, Gangnam-gu',
+   maxCap:500,minKRW:0,
+   tags:['테스트','관리자전용'],tagsEn:['Test','Admin Only'],
+   types:['기업행사'],pin:{x:50,y:50},
+   metro:'강남역 10번 1분',metroEn:'Gangnam Stn Exit 10, 1min',
+   phone:'010-0000-0000',email:'sssohn@thelayercorp.com',
+   hidden:true,
+   venues:[
+     {name:'테스트홀A',nameEn:'Test Hall A',cap:'최대 500명',capEn:'Up to 500'},
+     {name:'테스트룸B',nameEn:'Test Room B',cap:'최대 100명',capEn:'Up to 100'},
+   ],
+   am:['견적발송테스트','메일수신확인'],
+   amEn:['Quote Email Test','Mail Receipt Check'],
+  },
 ];
 
 /* ══════════════════════════════════════
@@ -1312,6 +1329,8 @@ function run(){
   const sortVal=document.getElementById('sortSel').value;
 
   let list=H.filter(h=>{
+    // hidden 호텔은 'test' 검색 시에만 표시
+    if(h.hidden && !q.includes('test')) return false;
     const tgt=(h.name+h.nameEn+h.addr+h.addrEn+h.rgn).toLowerCase();
     if(q&&!tgt.includes(q))return false;
     if(rgn&&!h.rgn.includes(rgn)&&!h.addr.includes(rgn))return false;
@@ -1355,17 +1374,13 @@ function renderCards(list){
           <div class="c-stars">${'★'.repeat(h.star)}</div>
         </div>
         <div class="c-addr">
-          <span class="ko">📍 ${h.addr}</span>
-          <span class="en">📍 ${h.addrEn}</span>
+          <span class="ko">${h.addr} &nbsp;·&nbsp; 최대 ${h.maxCap.toLocaleString()}명</span>
+          <span class="en">${h.addrEn} &nbsp;·&nbsp; Up to ${h.maxCap.toLocaleString()}</span>
         </div>
         <div class="c-chips">
           ${h.tags.map((t,idx)=>`<span class="ch ko">${t}</span><span class="ch en">${h.tagsEn[idx]}</span>`).join('')}
           <span class="ch g ko">${h.types[0]}</span>
           <span class="ch g en">${h.types[0]==='기업행사'?'Corporate':h.types[0]==='웨딩·돌잔치'?'Wedding':'Dining'}</span>
-        </div>
-        <div class="c-ft">
-          <span class="c-cap ko">👥 최대 ${h.maxCap.toLocaleString()}명</span>
-          <span class="c-cap en">👥 Up to ${h.maxCap.toLocaleString()}</span>
         </div>
       </div>
     </div>`;
@@ -1380,40 +1395,45 @@ let naverMarkers = {};      // id → naver.maps.Marker
 let naverInfoWin = null;    // 현재 열린 InfoWindow
 
 // 각 호텔 실제 좌표 (위도, 경도) — Geocoding API가 자동 정확화함
+// ══ 좌표는 네이버 Geocoding API가 자동 보정합니다 ══
+// addr 필드의 도로명주소 → 네이버 서버 정확 좌표로 덮어씁니다
+// 아래는 초기 fallback 좌표 (로드 즉시 표시용)
 const COORDS = {
   // ── 5성급 ─────────────────────────────────────────────────────────
-  1:  [37.5127, 127.0592],  // 그랜드 인터컨티넨탈 파르나스  강남구 테헤란로 521  (삼성역 북서)
-  2:  [37.5649, 126.9826],  // 롯데호텔 서울               중구 을지로 30         (을지로입구역)
-  3:  [37.5254, 126.9247],  // 콘래드 서울                 영등포구 국제금융로 10  (IFC몰)
-  4:  [37.5127, 127.1022],  // 시그니엘 서울               송파구 올림픽로 300    (롯데월드타워)
-  5:  [37.5711, 126.9758],  // 포시즌스 호텔 서울          종로구 새문안로 97      (광화문역 북서)
-  6:  [37.5396, 126.9989],  // 그랜드 하얏트 서울          용산구 소월로 322       (남산 서쪽 기슭)
-  7:  [37.5128, 127.0587],  // 파크 하얏트 서울            강남구 테헤란로 606     (삼성역 남동)
-  8:  [37.5261, 126.9240],  // 페어몬트 앰배서더 서울      영등포구 여의대로 108   (파크원)
-  9:  [37.5707, 127.0070],  // JW 메리어트 동대문 스퀘어   종로구 청계천로 279     (동대문역)
-  10: [37.5124, 127.1011],  // 소피텔 앰배서더 서울        송파구 잠실로 209       (잠실역 동편)
-  11: [37.5295, 126.9648],  // 나인트리 프리미어 로카우스  용산구 한강대로23길 25  (용산역 앞)
-  12: [37.5480, 126.9530],  // 롯데시티호텔 마포           마포구 마포대로 133     (공덕역)
-  13: [37.5574, 127.0046],  // 서울신라호텔                중구 동호로 249         (장충동)
-  14: [37.5649, 126.9800],  // 웨스틴 조선 서울            중구 소공로 106         (시청역 인근)
-  15: [37.5572, 127.0073],  // 반얀트리 클럽 앤 스파       중구 장충단로 60        (동국대 인근)
-  16: [37.5262, 127.0266],  // 안다즈 서울 강남            강남구 논현로 854       (압구정로데오역)
-  17: [37.5112, 127.1006],  // 롯데호텔 월드               송파구 올림픽로 240     (잠실역 남서)
-  18: [37.5660, 127.0083],  // 노보텔 앰배서더 동대문      중구 을지로 238         (을지로4가)
-  19: [37.5017, 127.0063],  // JW 메리어트 호텔 서울       서초구 신반포로 176     (고속터미널역)
-  20: [37.5037, 127.0445],  // 조선 팰리스 서울 강남       강남구 테헤란로 231     (역삼역 인근)
+  1:  [37.5127, 127.0593],  // 그랜드 인터컨티넨탈 파르나스  강남구 테헤란로 521
+  2:  [37.5649, 126.9817],  // 롯데호텔 서울               중구 을지로 30
+  3:  [37.5253, 126.9243],  // 콘래드 서울                 영등포구 국제금융로 10
+  4:  [37.5125, 127.1025],  // 시그니엘 서울               송파구 올림픽로 300 (롯데월드타워 76~101F)
+  5:  [37.5715, 126.9755],  // 포시즌스 호텔 서울          종로구 새문안로 97
+  6:  [37.5393, 126.9986],  // 그랜드 하얏트 서울          용산구 소월로 322
+  7:  [37.5132, 127.0597],  // 파크 하얏트 서울            강남구 테헤란로 606
+  8:  [37.5258, 126.9237],  // 페어몬트 앰배서더 서울      영등포구 여의대로 108
+  9:  [37.5712, 127.0069],  // JW 메리어트 동대문 스퀘어   종로구 청계천로 279
+  10: [37.5116, 127.1013],  // 소피텔 앰배서더 서울        송파구 잠실로 209 (잠실역 1번출구 동편)
+  11: [37.5293, 126.9649],  // 나인트리 프리미어 로카우스  용산구 한강대로23길 25
+  12: [37.5482, 126.9530],  // 롯데시티호텔 마포           마포구 마포대로 133
+  13: [37.5570, 127.0048],  // 서울신라호텔                중구 동호로 249
+  14: [37.5649, 126.9797],  // 웨스틴 조선 서울            중구 소공로 106
+  15: [37.5563, 127.0053],  // 반얀트리 클럽 앤 스파       중구 장충단로 60
+  16: [37.5262, 127.0266],  // 안다즈 서울 강남            강남구 논현로 854
+  17: [37.5101, 127.0984],  // 롯데호텔 월드               송파구 올림픽로 240 (잠실역 서남측)
+  18: [37.5662, 127.0082],  // 노보텔 앰배서더 동대문      중구 을지로 238
+  19: [37.5048, 127.0048],  // JW 메리어트 호텔 서울       서초구 신반포로 176
+  20: [37.5037, 127.0449],  // 조선 팰리스 서울 강남       강남구 테헤란로 231
   // ── 4성급 ─────────────────────────────────────────────────────────
-  21: [37.5555, 127.0104],  // 그랜드 앰배서더 서울        중구 장충단로 287       (동대입구역)
-  22: [37.5345, 126.9927],  // 몬드리안 서울 이태원        용산구 장문로 23        (이태원역)
-  23: [37.5239, 126.9249],  // 글래드 호텔 여의도          영등포구 국제금융로8길 16
-  24: [37.5097, 127.0558],  // 신라스테이 삼성             강남구 삼성로 140       (삼성역 남)
-  25: [37.5115, 127.0577],  // 오크우드 프리미어 코엑스    강남구 봉은사로 503     (코엑스 남측)
-  26: [37.5265, 126.9658],  // 노보텔 앰배서더 서울 용산   용산구 한강대로 95      (서울드래곤시티)
+  21: [37.5555, 127.0104],  // 그랜드 앰배서더 서울        중구 장충단로 287
+  22: [37.5349, 126.9923],  // 몬드리안 서울 이태원        용산구 장문로 23
+  23: [37.5241, 126.9249],  // 글래드 호텔 여의도          영등포구 국제금융로8길 16
+  24: [37.5097, 127.0560],  // 신라스테이 삼성             강남구 삼성로 140
+  25: [37.5117, 127.0579],  // 오크우드 프리미어 코엑스    강남구 봉은사로 503
+  26: [37.5268, 126.9652],  // 노보텔 앰배서더 서울 용산   용산구 한강대로 95
   // ── 3성급 ─────────────────────────────────────────────────────────
-  27: [37.5602, 126.9863],  // 이비스 앰배서더 서울 명동   중구 명동8가길 14
-  28: [37.5739, 126.9856],  // 나인트리 프리미어 인사동    종로구 인사동7길 12
-  29: [37.4985, 127.0468],  // 이비스 스타일 앰배서더 강남 강남구 역삼로 625
-  30: [37.5584, 126.9818],  // 레스케이프 호텔             중구 퇴계로 67          (명동 남측)
+  27: [37.5602, 126.9864],  // 이비스 앰배서더 서울 명동   중구 명동8가길 14
+  28: [37.5742, 126.9852],  // 나인트리 프리미어 인사동    종로구 인사동7길 12
+  29: [37.4987, 127.0462],  // 이비스 스타일 앰배서더 강남 강남구 역삼로 625
+  30: [37.5583, 126.9815],  // 레스케이프 호텔             중구 퇴계로 67
+  // ── TEST (관리자용) ───────────────────────────────────────────────
+  99: [37.4979, 127.0276],  // [TEST] 강남구 테헤란로 152
 };
 
 /* ══════════════════════════════════════
@@ -1811,13 +1831,160 @@ function openQuote(id){
 
 function submitQuote(id){
   const ko=lang==='ko';
+  // 폼 값 수집
+  const inputs = document.querySelectorAll('.quote-modal .form-input, .quote-modal .form-sel, .quote-modal .form-ta');
+  const name    = inputs[0]?.value||'';
+  const phone   = inputs[1]?.value||'';
+  const email   = inputs[2]?.value||'';
+  const company = inputs[3]?.value||'';
+  const evtType = inputs[4]?.value||'';
+  const guests  = inputs[5]?.value||'';
+  const date    = inputs[6]?.value||'';
+  const budget  = inputs[7]?.value||'';
+  const notes   = inputs[8]?.value||'';
+
+  const h = id ? H.find(x=>x.id===id) : null;
+  const hotelName = h ? (ko?h.name:h.nameEn) : '(호텔 미지정)';
+  const toEmail   = h ? h.email : 'banquet@hotel.com';
+
+  // mailto로 관리자 + 호텔 동시 발송
+  const subject = encodeURIComponent(`[Banvier 견적요청] ${hotelName} - ${name}`);
+  const body = encodeURIComponent(
+`[Banvier 연회장 견적 요청]
+━━━━━━━━━━━━━━━━━━━━
+호텔: ${hotelName}
+담당자: ${name}
+연락처: ${phone}
+이메일: ${email}
+회사/단체: ${company}
+행사유형: ${evtType}
+예상인원: ${guests}
+희망날짜: ${date}
+예산범위: ${budget}
+추가요청: ${notes}
+━━━━━━━━━━━━━━━━━━━━
+(Banvier 플랫폼 자동발송)`
+  );
+
+  // 관리자 수신 + 호텔 CC
+  const ccEmail = toEmail !== 'banquet@hotel.com' ? `&cc=${encodeURIComponent(toEmail)}` : '';
+  window.location.href = `mailto:sssohn@thelayercorp.com${ccEmail}?subject=${subject}&body=${body}`;
+
   closeOvl();
-  // In production: POST to your backend → forward to hotel email
   setTimeout(()=>alert(ko
     ?'✅ 견적 요청이 접수되었습니다!\n호텔 연회팀에서 1~2 영업일 내에 연락드립니다.'
     :'✅ Quote request submitted!\nThe banquet team will reply within 1–2 business days.'
-  ),100);
+  ),300);
 }
+
+/* ══════════════════════════════════════
+   VENUE REGISTER MODAL (연회장 등록/홍보 문의)
+══════════════════════════════════════ */
+function openVenueRegister(){
+  const ko=lang==='ko';
+  setOvlContent(`
+    <div class="quote-modal">
+      <button class="qm-cls" onclick="closeOvl()">✕</button>
+      <div class="qm-ttl" style="font-size:19px">${ko?'연회장 등록 · 홍보 문의':'Register Your Venue'}</div>
+      <div class="qm-sub">${ko
+        ?'Banvier에 귀사 호텔 연회장을 등록하고 기업·웨딩 고객과 연결되세요.<br>담당자가 1~2 영업일 내 연락드립니다.'
+        :'List your hotel\'s banquet venues on Banvier and connect with corporate & wedding clients.'
+      }</div>
+
+      <div style="background:#faf8f2;border:1px solid #e8e0cd;border-radius:10px;padding:13px 14px;margin-bottom:16px;font-size:12px;color:#5a5344;line-height:1.7">
+        <div style="font-weight:700;color:#18160f;margin-bottom:4px;font-size:13px">📋 ${ko?'등록 혜택':'Benefits'}</div>
+        <div>· ${ko?'STANDARD 무료 등록 (기본 정보 노출)':'STANDARD listing — Free'}</div>
+        <div>· ${ko?'FEATURED 월 20만원 (상단 노출 + 배지)':'FEATURED badge — ₩200K/mo'}</div>
+        <div>· ${ko?'PREMIER 월 50만원 (최상단 + 전용 배너)':'PREMIER placement — ₩500K/mo'}</div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">${ko?'호텔명':'Hotel Name'} *</label>
+        <input class="form-input" id="vr-hotel" placeholder="${ko?'호텔 공식 명칭':'Official hotel name'}"/>
+      </div>
+      <div class="form-row2">
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label">${ko?'담당자 성함':'Contact Name'} *</label>
+          <input class="form-input" id="vr-name" placeholder="${ko?'홍길동':'Full Name'}"/>
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label">${ko?'직책':'Title'}</label>
+          <input class="form-input" id="vr-title" placeholder="${ko?'연회팀 팀장':'Banquet Manager'}"/>
+        </div>
+      </div>
+      <div class="form-row2">
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label">${ko?'연락처':'Phone'} *</label>
+          <input class="form-input" id="vr-phone" placeholder="02-0000-0000"/>
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label">${ko?'이메일':'Email'} *</label>
+          <input class="form-input" id="vr-email" type="email" placeholder="banquet@hotel.com"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">${ko?'관심 플랜':'Interested Plan'}</label>
+        <select class="form-sel" id="vr-plan">
+          <option value="">${ko?'선택':'Select'}</option>
+          <option value="standard">${ko?'STANDARD — 무료 등록':'STANDARD — Free listing'}</option>
+          <option value="featured">${ko?'FEATURED — 월 20만원':'FEATURED — ₩200K/mo'}</option>
+          <option value="premier">${ko?'PREMIER — 월 50만원':'PREMIER — ₩500K/mo'}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">${ko?'추가 문의사항':'Additional Notes'}</label>
+        <textarea class="form-ta" id="vr-notes" placeholder="${ko?'연회장 규모, 특이사항, 궁금한 점 등…':'Venue capacity, special features, questions…'}"></textarea>
+      </div>
+      <button class="qm-send" onclick="submitVenueRegister()">
+        ${ko?'등록 문의 보내기 →':'Send Inquiry →'}
+      </button>
+      <div class="qm-note">${ko
+        ?'제출 즉시 Banvier 담당자(sssohn@thelayercorp.com)에게 전달됩니다.'
+        :'Your inquiry will be sent directly to our team at sssohn@thelayercorp.com.'
+      }</div>
+    </div>
+  `);
+}
+
+function submitVenueRegister(){
+  const ko=lang==='ko';
+  const hotel = document.getElementById('vr-hotel')?.value||'';
+  const name  = document.getElementById('vr-name')?.value||'';
+  const title = document.getElementById('vr-title')?.value||'';
+  const phone = document.getElementById('vr-phone')?.value||'';
+  const email = document.getElementById('vr-email')?.value||'';
+  const plan  = document.getElementById('vr-plan')?.value||'';
+  const notes = document.getElementById('vr-notes')?.value||'';
+
+  if(!hotel||!name||!phone){
+    alert(ko?'호텔명, 담당자명, 연락처는 필수입니다.':'Hotel name, contact name, and phone are required.');
+    return;
+  }
+
+  const subject = encodeURIComponent(`[Banvier 연회장등록문의] ${hotel} - ${name}`);
+  const body = encodeURIComponent(
+`[Banvier 연회장 등록 문의]
+━━━━━━━━━━━━━━━━━━━━
+호텔명: ${hotel}
+담당자: ${name} (${title})
+연락처: ${phone}
+이메일: ${email}
+관심플랜: ${plan||'미선택'}
+문의내용: ${notes}
+━━━━━━━━━━━━━━━━━━━━
+(Banvier 플랫폼 자동발송)`
+  );
+
+  const cc = email ? `&cc=${encodeURIComponent(email)}` : '';
+  window.location.href = `mailto:sssohn@thelayercorp.com${cc}?subject=${subject}&body=${body}`;
+
+  closeOvl();
+  setTimeout(()=>alert(ko
+    ?'✅ 문의가 접수되었습니다!\nBanvier 담당자가 1~2 영업일 내 연락드립니다.'
+    :'✅ Inquiry received! Our team will contact you within 1–2 business days.'
+  ),300);
+}
+
 
 /* ══════════════════════════════════════
    SAVE / MY PAGE
