@@ -1451,8 +1451,8 @@ function initNaverMap(){
     scaleControl: false,
   });
   buildMarkers(H);
-  // 백그라운드에서 Geocoding으로 좌표 자동 정확화
-  setTimeout(refineCoordsByGeocoding, 1500);
+  // SDK 완전 초기화 후 순차 Geocoding 시작 (2.5초 여유)
+  setTimeout(refineCoordsByGeocoding, 2500);
 }
 
 /* ══════════════════════════════════════
@@ -1556,27 +1556,54 @@ function placeMarker(h, lat, lng){
   naverMarkers[h.id] = marker;
 }
 
-// 네이버 Geocoding API로 주소→좌표 정확화 (페이지 로드 후 백그라운드 실행)
+// 네이버 Geocoding API로 주소→좌표 정확화
+// ★ 핵심 수정: 30개 동시 요청 → 300ms 간격 순차 요청 (Rate Limit 방어)
 function refineCoordsByGeocoding(){
-  if(!window.naver || !naver.maps || !naver.maps.Service) return;
-  H.forEach(h=>{
-    const addr = h.addr; // 정확한 도로명 주소 사용
-    naver.maps.Service.geocode({query: addr}, function(status, response){
-      if(status !== naver.maps.Service.Status.OK) return;
-      const result = response.v2.addresses;
-      if(!result || result.length === 0) return;
-      const item = result[0];
-      const newLat = parseFloat(item.y);
-      const newLng = parseFloat(item.x);
-      if(!newLat || !newLng) return;
-      // COORDS 업데이트
-      COORDS[h.id] = [newLat, newLng];
-      // 마커 재배치
-      if(naverMarkers[h.id]){
-        naverMarkers[h.id].setPosition(new naver.maps.LatLng(newLat, newLng));
+  if(!window.naver || !naver.maps || !naver.maps.Service){
+    console.warn('[Banvier] naver.maps.Service 미로드 — Geocoding 스킵');
+    return;
+  }
+
+  // hidden 호텔(테스트용) 제외한 실제 호텔만 처리
+  const targets = H.filter(h => !h.hidden);
+  let idx = 0;
+
+  function geocodeNext(){
+    if(idx >= targets.length) {
+      console.log('[Banvier] Geocoding 전체 완료');
+      return;
+    }
+    const h = targets[idx++];
+
+    naver.maps.Service.geocode({query: h.addr}, function(status, response){
+      if(status === naver.maps.Service.Status.OK){
+        const result = response.v2?.addresses;
+        if(result && result.length > 0){
+          const newLat = parseFloat(result[0].y);
+          const newLng = parseFloat(result[0].x);
+          if(newLat && newLng){
+            COORDS[h.id] = [newLat, newLng];
+            // 마커 위치 즉시 업데이트
+            if(naverMarkers[h.id]){
+              naverMarkers[h.id].setPosition(
+                new naver.maps.LatLng(newLat, newLng)
+              );
+            }
+            console.log(`[Geocoding ✓] ${h.name} → ${newLat}, ${newLng}`);
+          }
+        } else {
+          console.warn(`[Geocoding ✗] ${h.name} — 주소 결과 없음`);
+        }
+      } else {
+        console.warn(`[Geocoding ✗] ${h.name} — status: ${status}`);
       }
+      // 다음 호텔을 300ms 후에 처리 (Rate Limit 안전 간격)
+      setTimeout(geocodeNext, 300);
     });
-  });
+  }
+
+  // 첫 번째 요청 시작
+  geocodeNext();
 }
 
 /* ══════════════════════════════════════
