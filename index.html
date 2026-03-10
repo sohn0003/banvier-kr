@@ -1047,7 +1047,7 @@ const H = [
    maxCap:400,minKRW:0,
    tags:['강남','라이프스타일','디자인'],tagsEn:['Gangnam','Lifestyle','Design'],
    types:['기업행사','만찬·연회'],pin:{x:55,y:58},
-   metro:'압구정역 3번 직통',metroEn:'Apgujeong Rodeo Stn Exit 3, Direct',
+   metro:'압구정역 3번 직통',metroEn:'Apgujeong Stn Exit 3, Direct',
    phone:'02-2046-1234',email:'seoul.gangnam@andaz.com',
    venues:[
      {name:'볼룸',nameEn:'Ballroom',cap:'최대 400명',capEn:'Up to 400'},
@@ -1165,7 +1165,7 @@ const H = [
   },
   {id:24,e:'🌟',star:4,
    name:'신라스테이 삼성',nameEn:'Shilla Stay Samseong',
-   rgn:'강남',addr:'강남구 삼성로 147',addrEn:'147 Samsung-ro, Gangnam-gu',
+   rgn:'강남',addr:'강남구 영동대로 506',addrEn:'506 Yeongdong-daero, Gangnam-gu',
    maxCap:200,minKRW:0,
    tags:['코엑스','강남','비즈니스'],tagsEn:['COEX','Gangnam','Business'],
    types:['기업행사','세미나'],pin:{x:63,y:53},
@@ -1412,7 +1412,7 @@ const COORDS = {
   13: [37.557183, 127.005117],  // 서울신라호텔
   14: [37.564790, 126.979825],  // 웨스틴 조선 서울
   15: [37.556769, 127.006424],  // 반얀트리 클럽 앤 스파 서울
-  16: [37.527491, 127.032847],  // 안다즈 서울 강남 (논현로 854, 압구정로데오역 3번)
+  16: [37.527491, 127.032847],  // 안다즈 서울 강남 (논현로 854, 압구정역 3번)
   17: [37.511048, 127.098656],  // 롯데호텔 월드
   18: [37.566262, 127.007825],  // 노보텔 앰배서더 서울 동대문
   19: [37.504267, 127.004994],  // JW 메리어트 호텔 서울
@@ -1420,7 +1420,7 @@ const COORDS = {
   21: [37.555224, 127.009985],  // 앰배서더 서울 풀만
   22: [37.534880, 126.992680],  // 몬드리안 서울 이태원
   23: [37.524097, 126.924892],  // 글래드 호텔 여의도
-  24: [37.508817, 127.056394],  // 신라스테이 삼성 (삼성로 147)
+  24: [37.508956, 127.062331],  // 신라스테이 삼성 (영동대로 506)
   25: [37.511365, 127.057830],  // 오크우드 프리미어 코엑스 센터
   26: [37.526753, 126.965243],  // 노보텔 앰배서더 서울 용산
   27: [37.560127, 126.986333],  // 이비스 앰배서더 서울 명동
@@ -1451,72 +1451,21 @@ function initNaverMap(){
 /* ══════════════════════════════════════
    NAVER MAP — 마커 생성
 ══════════════════════════════════════ */
-const PIN_LABELS = {
-  1:{ko:'그랜드\n인터컨티넨탈',en:'Grand\nIHG Parnas'},
-  2:{ko:'롯데호텔\n서울',       en:'Lotte Hotel\nSeoul'},
-  3:{ko:'콘래드\n서울',         en:'Conrad\nSeoul'},
-  4:{ko:'시그니엘\n서울',       en:'Signiel\nSeoul'},
-  5:{ko:'포시즌스\n서울',       en:'Four Seasons\nSeoul'},
-  6:{ko:'그랜드\n하얏트',       en:'Grand\nHyatt'},
-  7:{ko:'파크하얏트\n서울',     en:'Park Hyatt\nSeoul'},
-  8:{ko:'페어몬트\n앰배서더',   en:'Fairmont\nAmbassador'},
-  9:{ko:'JW메리어트\n동대문',   en:'JW Marriott\nDDP'},
-  10:{ko:'소피텔\n앰배서더',    en:'Sofitel\nAmbassador'},
-  11:{ko:'나인트리\n용산',       en:'NineTree\nYongsan'},
-  12:{ko:'롯데시티\n마포',       en:'Lotte City\nMapo'},
-  13:{ko:'서울\n신라호텔',       en:'The Shilla\nSeoul'},
-  14:{ko:'웨스틴\n조선',         en:'Westin\nJosun'},
-  15:{ko:'반얀트리\n서울',       en:'Banyan Tree\nSeoul'},
-  16:{ko:'안다즈\n강남',         en:'Andaz\nGangnam'},
-  17:{ko:'롯데호텔\n월드',       en:'Lotte Hotel\nWorld'},
-  18:{ko:'노보텔\n동대문',       en:'Novotel\nDDP'},
-  19:{ko:'JW메리어트\n강남',     en:'JW Marriott\nSeoul'},
-  20:{ko:'조선팰리스\n강남',     en:'Josun Palace\nGangnam'},
-  21:{ko:'앰배서더\n풀만',        en:'Ambassador\nPullman'},
-  22:{ko:'몬드리안\n이태원',     en:'Mondrian\nItaewon'},
-  23:{ko:'글래드\n여의도',       en:'Glad Hotel\nYeouido'},
-  24:{ko:'신라스테이\n삼성',     en:'Shilla Stay\nSamseong'},
-  25:{ko:'오크우드\n코엑스',     en:'Oakwood\nCOEX'},
-  26:{ko:'노보텔\n용산',         en:'Novotel\nYongsan'},
-  27:{ko:'이비스\n명동',         en:'Ibis\nMyeongdong'},
-  28:{ko:'나인트리\n인사동',     en:'NineTree\nInsadong'},
-  29:{ko:'이비스\n강남',         en:'Ibis\nGangnam'},
-  30:{ko:'레스케이프\n호텔',     en:"L'Escape\nHotel"},
-};
-
-function makePinSvg(lbl, active){
-  const bg  = active ? '#b8923a' : '#18160f';
-  const txt = active ? '#18160f' : '#ffffff';
-  const lines = lbl.split('\n');
-  const lineH = 14, pad = 8, lineW = 76;
-  const rectH = lines.length * lineH + pad * 2;  // 실제 말풍선 높이
-  const totalH = rectH + 8;                       // + 꼬리 7px + 여백 1px
-  const rows = lines.map((l,i)=>
-    `<text x="${lineW/2}" y="${pad+12+i*lineH}" text-anchor="middle"
-     font-family="Noto Sans KR,sans-serif" font-size="11" font-weight="700"
-     fill="${txt}">${l}</text>`).join('');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${lineW}" height="${totalH}">
-      <rect x="0" y="0" width="${lineW}" height="${rectH}" rx="8" fill="${bg}"/>
-      ${rows}
-      <polygon points="${lineW/2-6},${rectH} ${lineW/2+6},${rectH} ${lineW/2},${rectH+7}" fill="${bg}"/>
-    </svg>`;
-  return {
-    url: `data:image/svg+xml;charset=UTF-8,` + encodeURIComponent(svg),
-    width: lineW,
-    height: totalH,   // 실제 SVG 높이를 반환
-  };
-}
+/* ══════════════════════════════════════
+   NAVER MAP — 마커 (HTML content 방식)
+   커스텀 SVG+anchor 오류 원천 제거
+══════════════════════════════════════ */
 
 function buildMarkers(list){
-  // 기존 마커 전부 제거
-  Object.values(naverMarkers).forEach(m=>m.setMap(null));
+  Object.values(naverMarkers).forEach(m=>{
+    if(m.marker) m.marker.setMap(null);
+    if(m.overlay) m.overlay.setMap(null);
+  });
   naverMarkers = {};
-
-  // InfoWindow 닫기
   if(naverInfoWin){ naverInfoWin.close(); naverInfoWin=null; }
 
   list.forEach(h=>{
-    if(h.hidden) return;  // 테스트 호텔 지도 노출 방지
+    if(h.hidden) return;
     const coords = COORDS[h.id];
     if(!coords) return;
     placeMarker(h, coords[0], coords[1]);
@@ -1524,26 +1473,39 @@ function buildMarkers(list){
 }
 
 function placeMarker(h, lat, lng){
-  const lbl = PIN_LABELS[h.id]?.[lang==='ko'?'ko':'en'] || h.name;
+  const ko = lang==='ko';
   const isActive = h.id === selHotel;
+  const pos = new naver.maps.LatLng(lat, lng);
 
-  if(naverMarkers[h.id]) naverMarkers[h.id].setMap(null);
+  // 기존 마커/오버레이 제거
+  if(naverMarkers[h.id]){
+    naverMarkers[h.id].marker.setMap(null);
+    naverMarkers[h.id].overlay.setMap(null);
+  }
 
-  const pin = makePinSvg(lbl, isActive);
-
+  // ── ① 네이버 기본 마커 (anchor는 SDK가 자동으로 이미지 하단 중앙으로 설정)
   const marker = new naver.maps.Marker({
-    position: new naver.maps.LatLng(lat, lng),
+    position: pos,
     map: naverMap,
-    title: h.name,
     icon: {
-      url: pin.url,
-      // ★ size 제거: SVG width/height 속성 그대로 렌더 (스케일링 없음)
-      // size를 지정하면 브라우저가 SVG를 강제 스케일링해 anchor 좌표가 틀어짐
-      origin: new naver.maps.Point(0, 0),
-      anchor: new naver.maps.Point(
-        Math.round(pin.width / 2),  // X: 가로 중앙
-        pin.height                  // Y: SVG 맨 아래(꼬리 끝) = 지도 좌표점
-      ),
+      content: `<div style="
+        background:${isActive?'#b8923a':'#18160f'};
+        color:${isActive?'#18160f':'#fff'};
+        font-family:'Noto Sans KR',sans-serif;
+        font-size:10px;font-weight:700;
+        padding:4px 8px;border-radius:6px;
+        white-space:nowrap;
+        box-shadow:0 2px 6px rgba(0,0,0,.35);
+        position:relative;cursor:pointer;
+      ">${ko ? (h.name.length>8 ? h.name.slice(0,8)+'…' : h.name) : (h.nameEn.length>12 ? h.nameEn.slice(0,12)+'…' : h.nameEn)
+      }<div style="
+        position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);
+        width:0;height:0;
+        border-left:5px solid transparent;
+        border-right:5px solid transparent;
+        border-top:5px solid ${isActive?'#b8923a':'#18160f'};
+      "></div></div>`,
+      anchor: new naver.maps.Point(38, 28),
     },
     zIndex: isActive ? 20 : 10,
   });
@@ -1557,8 +1519,9 @@ function placeMarker(h, lat, lng){
     if(window.innerWidth<=900) switchTab('map');
   });
 
-  naverMarkers[h.id] = marker;
+  naverMarkers[h.id] = { marker, overlay: { setMap:()=>{} } };
 }
+
 
 /* ══════════════════════════════════════
    NAVER MAP — InfoWindow 팝업
@@ -1617,7 +1580,7 @@ function renderPins(list){
   // fallback: static canvas (지도 로드 실패 시)
   const ko=lang==='ko';
   document.getElementById('pins').innerHTML=list.map(h=>{
-    const lbl=(PIN_LABELS[h.id]?.[ko?'ko':'en']||h.name).replace(/\n/g,'<br>');
+    const lbl = ko ? h.name : h.nameEn;
     return`<div class="pin${h.id===selHotel?' on':''}" style="left:${h.pin.x}%;top:${h.pin.y}%"
       id="pin-${h.id}" onclick="pinClick(${h.id},event)">
       <div class="pin-lbl">${lbl}</div></div>`;
