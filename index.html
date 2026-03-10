@@ -1477,35 +1477,47 @@ function placeMarker(h, lat, lng){
   const isActive = h.id === selHotel;
   const pos = new naver.maps.LatLng(lat, lng);
 
-  // 기존 마커/오버레이 제거
   if(naverMarkers[h.id]){
     naverMarkers[h.id].marker.setMap(null);
     naverMarkers[h.id].overlay.setMap(null);
   }
 
-  // ── ① 네이버 기본 마커 (anchor는 SDK가 자동으로 이미지 하단 중앙으로 설정)
+  const label = ko
+    ? (h.name.length > 8 ? h.name.slice(0,8)+'…' : h.name)
+    : (h.nameEn.length > 12 ? h.nameEn.slice(0,12)+'…' : h.nameEn);
+
+  const bg  = isActive ? '#b8923a' : '#18160f';
+  const fg  = isActive ? '#18160f' : '#ffffff';
+
+  // ★ anchor 계산 완전 제거
+  // transform: translateX(-50%)  → 가로 정중앙 정렬
+  // transform: translateY(-100%) → div 하단이 정확히 좌표점과 일치
+  // 꼬리(▼)는 div 바깥 아래에 붙음 → 꼬리 끝 = 지도 좌표
   const marker = new naver.maps.Marker({
     position: pos,
     map: naverMap,
     icon: {
-      content: `<div style="
-        background:${isActive?'#b8923a':'#18160f'};
-        color:${isActive?'#18160f':'#fff'};
-        font-family:'Noto Sans KR',sans-serif;
-        font-size:10px;font-weight:700;
-        padding:4px 8px;border-radius:6px;
-        white-space:nowrap;
-        box-shadow:0 2px 6px rgba(0,0,0,.35);
-        position:relative;cursor:pointer;
-      ">${ko ? (h.name.length>8 ? h.name.slice(0,8)+'…' : h.name) : (h.nameEn.length>12 ? h.nameEn.slice(0,12)+'…' : h.nameEn)
-      }<div style="
-        position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);
-        width:0;height:0;
-        border-left:5px solid transparent;
-        border-right:5px solid transparent;
-        border-top:5px solid ${isActive?'#b8923a':'#18160f'};
-      "></div></div>`,
-      anchor: new naver.maps.Point(38, 28),
+      content: [
+        `<div style="transform:translate(-50%,-100%);display:inline-block;position:relative">`,
+          `<div style="`,
+            `background:${bg};color:${fg};`,
+            `font-family:'Noto Sans KR',sans-serif;`,
+            `font-size:11px;font-weight:700;`,
+            `padding:4px 9px;border-radius:6px;`,
+            `white-space:nowrap;`,
+            `box-shadow:0 2px 8px rgba(0,0,0,.4);`,
+            `cursor:pointer;`,
+          `">${label}</div>`,
+          `<div style="`,
+            `position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);`,
+            `width:0;height:0;`,
+            `border-left:5px solid transparent;`,
+            `border-right:5px solid transparent;`,
+            `border-top:6px solid ${bg};`,
+          `"></div>`,
+        `</div>`,
+      ].join(''),
+      anchor: new naver.maps.Point(0, 0),
     },
     zIndex: isActive ? 20 : 10,
   });
