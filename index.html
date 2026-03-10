@@ -1047,7 +1047,7 @@ const H = [
    maxCap:400,minKRW:0,
    tags:['강남','라이프스타일','디자인'],tagsEn:['Gangnam','Lifestyle','Design'],
    types:['기업행사','만찬·연회'],pin:{x:55,y:58},
-   metro:'압구정역 1번 5분',metroEn:'Apgujeong Stn Exit 1, 5min',
+   metro:'압구정로데오역 3번 직통',metroEn:'Apgujeong Rodeo Stn Exit 3, Direct',
    phone:'02-2046-1234',email:'seoul.gangnam@andaz.com',
    venues:[
      {name:'볼룸',nameEn:'Ballroom',cap:'최대 400명',capEn:'Up to 400'},
@@ -1103,7 +1103,7 @@ const H = [
   },
   {id:20,e:'🌸',star:5,
    name:'조선 팰리스 서울 강남',nameEn:'Josun Palace Seoul Gangnam',
-   rgn:'강남',addr:'강남구 테헤란로',addrEn:'Teheran-ro, Gangnam-gu',
+   rgn:'강남',addr:'강남구 테헤란로 231',addrEn:'231 Teheran-ro, Gangnam-gu',
    maxCap:500,minKRW:0,
    tags:['강남','신규','럭셔리컬렉션'],tagsEn:['Gangnam','New','Luxury Collection'],
    types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:65,y:56},
@@ -1165,7 +1165,7 @@ const H = [
   },
   {id:24,e:'🌟',star:4,
    name:'신라스테이 삼성',nameEn:'Shilla Stay Samseong',
-   rgn:'강남',addr:'강남구 삼성로 140',addrEn:'140 Samsung-ro, Gangnam-gu',
+   rgn:'강남',addr:'강남구 삼성로 147',addrEn:'147 Samsung-ro, Gangnam-gu',
    maxCap:200,minKRW:0,
    tags:['코엑스','강남','비즈니스'],tagsEn:['COEX','Gangnam','Business'],
    types:['기업행사','세미나'],pin:{x:63,y:53},
@@ -1377,11 +1377,7 @@ function renderCards(list){
           <span class="ko">${h.addr} &nbsp;·&nbsp; 최대 ${h.maxCap.toLocaleString()}명</span>
           <span class="en">${h.addrEn} &nbsp;·&nbsp; Up to ${h.maxCap.toLocaleString()}</span>
         </div>
-        <div class="c-chips">
-          ${h.tags.map((t,idx)=>`<span class="ch ko">${t}</span><span class="ch en">${h.tagsEn[idx]}</span>`).join('')}
-          <span class="ch g ko">${h.types[0]}</span>
-          <span class="ch g en">${h.types[0]==='기업행사'?'Corporate':h.types[0]==='웨딩·돌잔치'?'Wedding':'Dining'}</span>
-        </div>
+
       </div>
     </div>`;
   }).join('');
@@ -1416,15 +1412,15 @@ const COORDS = {
   13: [37.557183, 127.005117],  // 서울신라호텔
   14: [37.564790, 126.979825],  // 웨스틴 조선 서울
   15: [37.556769, 127.006424],  // 반얀트리 클럽 앤 스파 서울
-  16: [37.526269, 127.026581],  // 안다즈 서울 강남
+  16: [37.527491, 127.032847],  // 안다즈 서울 강남 (논현로 854, 압구정로데오역 3번)
   17: [37.511048, 127.098656],  // 롯데호텔 월드
   18: [37.566262, 127.007825],  // 노보텔 앰배서더 서울 동대문
   19: [37.504267, 127.004994],  // JW 메리어트 호텔 서울
-  20: [37.503969, 127.044910],  // 조선 팰리스 서울 강남
+  20: [37.504391, 127.048532],  // 조선 팰리스 서울 강남 (테헤란로 231)
   21: [37.555224, 127.009985],  // 앰배서더 서울 풀만
   22: [37.534880, 126.992680],  // 몬드리안 서울 이태원
   23: [37.524097, 126.924892],  // 글래드 호텔 여의도
-  24: [37.509617, 127.056050],  // 신라스테이 삼성
+  24: [37.508817, 127.056394],  // 신라스테이 삼성 (삼성로 147)
   25: [37.511365, 127.057830],  // 오크우드 프리미어 코엑스 센터
   26: [37.526753, 126.965243],  // 노보텔 앰배서더 서울 용산
   27: [37.560127, 126.986333],  // 이비스 앰배서더 서울 명동
@@ -1520,6 +1516,7 @@ function buildMarkers(list){
   if(naverInfoWin){ naverInfoWin.close(); naverInfoWin=null; }
 
   list.forEach(h=>{
+    if(h.hidden) return;  // 테스트 호텔 지도 노출 방지
     const coords = COORDS[h.id];
     if(!coords) return;
     placeMarker(h, coords[0], coords[1]);
@@ -1530,14 +1527,9 @@ function placeMarker(h, lat, lng){
   const lbl = PIN_LABELS[h.id]?.[lang==='ko'?'ko':'en'] || h.name;
   const isActive = h.id === selHotel;
 
-  // 기존 마커가 있으면 제거
   if(naverMarkers[h.id]) naverMarkers[h.id].setMap(null);
 
-  // ★ SVG 실제 크기를 가져와서 anchor를 정확히 계산
   const pin = makePinSvg(lbl, isActive);
-  // anchor: 꼬리 끝점 = X축 중앙, Y축 SVG 맨 아래
-  const anchorX = Math.round(pin.width / 2);
-  const anchorY = pin.height;  // 꼬리 끝 = 지도 좌표점
 
   const marker = new naver.maps.Marker({
     position: new naver.maps.LatLng(lat, lng),
@@ -1545,8 +1537,13 @@ function placeMarker(h, lat, lng){
     title: h.name,
     icon: {
       url: pin.url,
-      size: new naver.maps.Size(pin.width, pin.height),
-      anchor: new naver.maps.Point(anchorX, anchorY),
+      // ★ size 제거: SVG width/height 속성 그대로 렌더 (스케일링 없음)
+      // size를 지정하면 브라우저가 SVG를 강제 스케일링해 anchor 좌표가 틀어짐
+      origin: new naver.maps.Point(0, 0),
+      anchor: new naver.maps.Point(
+        Math.round(pin.width / 2),  // X: 가로 중앙
+        pin.height                  // Y: SVG 맨 아래(꼬리 끝) = 지도 좌표점
+      ),
     },
     zIndex: isActive ? 20 : 10,
   });
