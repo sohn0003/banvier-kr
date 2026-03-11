@@ -53,9 +53,9 @@
 
   // 각 호텔 좌표로 마커 생성 예시:
   const COORDS = {
-    1: [37.5140, 127.0590], // 그랜드 인터컨티넨탈 파르나스
+    1: [37.509166, 127.061109]
     2: [37.5650, 126.9820], // 롯데호텔 서울
-    3: [37.5215, 126.9240], // 콘래드 서울
+    3: [37.525567, 126.926612]
     // ... 나머지 호텔 좌표
   };
 
@@ -791,12 +791,13 @@ function starBadge(star){
     5:{bg:'#18160f',accent:'#c8a96e',label:'5★'},
     4:{bg:'#1e3a5f',accent:'#7eb8d4',label:'4★'},
     3:{bg:'#2d4a1e',accent:'#8fbc6a',label:'3★'},
+    0:{bg:'#4a3728',accent:'#d4a96e',label:'CVN'},
   }[star]||{bg:'#333',accent:'#ccc',label:star+'★'};
   return `<div style="width:100%;height:100%;border-radius:10px;background:${cfg.bg};
     display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;">
     <div style="font-size:22px;color:${cfg.accent};letter-spacing:1px;line-height:1;font-weight:700">${cfg.label}</div>
     <div style="width:40px;height:1px;background:${cfg.accent};opacity:.5;margin:6px auto"></div>
-    <div style="font-size:9px;color:rgba(255,255,255,.55);letter-spacing:.8px;font-weight:400">HOTEL</div>
+    <div style="font-size:9px;color:rgba(255,255,255,.55);letter-spacing:.8px;font-weight:400">${star===0?'CONVENTION':'HOTEL'}</div>
   </div>`;
 }
 
@@ -1118,7 +1119,7 @@ const H = [
   },
 
   /* ─── 4성급 추가 ─── */
-  {id:21,e:'🏢',star:4,
+  {id:21,e:'🏢',star:5,
    name:'앰배서더 서울 풀만',nameEn:'Ambassador Seoul Pullman',
    rgn:'중구',addr:'중구 장충단로 287',addrEn:'287 Jangchungdan-ro, Jung-gu',
    maxCap:600,minKRW:0,
@@ -1133,7 +1134,7 @@ const H = [
    am:['야외수영장','바','발레파킹','케이터링'],
    amEn:['Outdoor Pool','Bar','Valet','Catering'],
   },
-  {id:22,e:'🌙',star:4,
+  {id:22,e:'🌙',star:5,
    name:'몬드리안 서울 이태원',nameEn:'Mondrian Seoul Itaewon',
    rgn:'용산',addr:'용산구 장문로 23',addrEn:'23 Jangmun-ro, Yongsan-gu',
    maxCap:300,minKRW:0,
@@ -1192,14 +1193,14 @@ const H = [
    am:['무료주차','AV장비','케이터링','피트니스','스파'],
    amEn:['Free Parking','AV Equipment','Catering','Fitness','Spa'],
   },
-  {id:26,e:'🏛️',star:4,
-   name:'노보텔 앰배서더 서울 용산',nameEn:'Novotel Ambassador Seoul Yongsan',
+  {id:26,e:'🏟️',star:0,
+   name:'서울드래곤시티',nameEn:'Seoul Dragon City',
    rgn:'용산',addr:'용산구 한강대로 95',addrEn:'95 Hangang-daero, Yongsan-gu',
    maxCap:400,minKRW:0,
-   tags:['용산','서울드래곤시티','한강뷰'],tagsEn:['Yongsan','Dragon City','Han River'],
+   tags:['용산','컨벤션','대규모'],tagsEn:['Yongsan','Convention','Large Scale'],
    types:['기업행사','만찬·연회','세미나'],pin:{x:29,y:56},
    metro:'신용산역 4번 3분',metroEn:'Sinyongsan Stn Exit 4, 3min',
-   phone:'02-2017-1000',email:'banquet.yongsan@ambatel.com',
+   phone:'02-2017-1000',email:'convention@dragonhotelresorts.com',
    venues:[
      {name:'그랜드볼룸',nameEn:'Grand Ballroom',cap:'최대 400명',capEn:'Up to 400'},
      {name:'세미나룸',nameEn:'Seminar Room',cap:'최대 80명',capEn:'Up to 80'},
@@ -1210,7 +1211,7 @@ const H = [
 
   /* ─── 3성급 추가 ─── */
   {id:27,e:'🌈',star:3,
-   name:'이비스 앰배서더 명동',nameEn:'Ibis Ambassador Seoul Myeongdong',
+   name:'이비스스타일 앰배서더 서울 명동',nameEn:'Ibis Styles Ambassador Seoul Myeongdong',
    rgn:'중구',addr:'중구 명동8가길 14',addrEn:'14 Myeongdong 8ga-gil, Jung-gu',
    maxCap:80,minKRW:0,
    tags:['명동','가성비','도심'],tagsEn:['Myeongdong','Value','Central'],
@@ -1224,7 +1225,7 @@ const H = [
    amEn:['Myeongdong Center','Catering','AV Equipment','Parking'],
   },
   {id:28,e:'🌻',star:3,
-   name:'나인트리 프리미어 인사동',nameEn:'Nine Tree Premier Insadong',
+   name:'나인트리 바이 파르나스 서울 인사동',nameEn:'Nine Tree by Parnas Seoul Insadong',
    rgn:'종로',addr:'종로구 인사동7길 12',addrEn:'12 Insadong 7-gil, Jongno-gu',
    maxCap:100,minKRW:0,
    tags:['인사동','문화','가성비'],tagsEn:['Insadong','Culture','Value'],
@@ -1253,7 +1254,7 @@ const H = [
    am:['강남 중심','AV장비','케이터링','피트니스','주차'],
    amEn:['Gangnam Center','AV Equipment','Catering','Fitness','Parking'],
   },
-  {id:30,e:'🏙',star:3,
+  {id:30,e:'🏙',star:4,
    name:'레스케이프 호텔',nameEn:'L\'Escape Hotel',
    rgn:'중구',addr:'중구 퇴계로 67',addrEn:'67 Toegye-ro, Jung-gu',
    maxCap:100,minKRW:0,
@@ -1267,6 +1268,23 @@ const H = [
    ],
    am:['부티크인테리어','스파','라이브러리','케이터링','주차'],
    amEn:['Boutique Interior','Spa','Library','Catering','Parking'],
+  },
+
+  {id:31,e:'🌿',star:5,
+   name:'웨스틴 서울 파르나스',nameEn:'Westin Seoul Parnas',
+   rgn:'강남',addr:'강남구 봉은사로 524',addrEn:'524 Bongeunsa-ro, Gangnam-gu',
+   maxCap:600,minKRW:0,
+   tags:['코엑스','강남','비즈니스'],tagsEn:['COEX','Gangnam','Business'],
+   types:['기업행사','만찬·연회','웨딩·돌잔치'],pin:{x:62,y:51},
+   metro:'삼성역 5번 직결 (2호선)',metroEn:'Samseong Stn Exit 5, Direct',
+   phone:'02-555-5656',email:'banquet@westin-parnas.co.kr',
+   venues:[
+     {name:'웨스틴볼룸',nameEn:'Westin Ballroom',cap:'최대 600명',capEn:'Up to 600'},
+     {name:'파르나스룸',nameEn:'Parnas Room',cap:'최대 200명',capEn:'Up to 200'},
+     {name:'미팅룸A·B',nameEn:'Meeting Room A·B',cap:'최대 80명',capEn:'Up to 80'},
+   ],
+   am:['코엑스 직결','최신AV시설','발레파킹','동시통역','케이터링','야외테라스'],
+   amEn:['COEX Direct','Premium AV','Valet Parking','Interpretation','Catering','Outdoor Terrace'],
   },
   // ── 관리자 TEST 전용 (숨김 — 검색창에 "test" 입력 시만 표시) ──
   {id:99,e:'🧪',star:5,
@@ -1397,36 +1415,37 @@ let naverInfoWin = null;    // 현재 열린 InfoWindow
     document.write 보안 차단으로 사용 불가)
 ══════════════════════════════════════ */
 const COORDS = {
-   1: [37.511997, 127.059622],  // 그랜드 인터컨티넨탈 파르나스  강남구 테헤란로 521
+   1: [37.509166, 127.061109],  // 그랜드 인터컨티넨탈 파르나스   강남구 테헤란로 521
    2: [37.564855, 126.981963],  // 롯데호텔 서울                  중구 을지로 30
-   3: [37.525879, 126.923877],  // 콘래드 서울                    영등포구 국제금융로 10
+   3: [37.525567, 126.926612],  // 콘래드 서울                    영등포구 국제금융로 10
    4: [37.512757, 127.102193],  // 시그니엘 서울                  송파구 올림픽로 300
-   5: [37.571539, 126.975765],  // 포시즌스 호텔 서울             종로구 새문안로 97
+   5: [37.570633, 126.975332],  // 포시즌스 호텔 서울             종로구 새문안로 97
    6: [37.539560, 126.998557],  // 그랜드 하얏트 서울             용산구 소월로 322
-   7: [37.508819, 127.062101],  // 파크 하얏트 서울               강남구 테헤란로 606
-   8: [37.526001, 126.924076],  // 페어몬트 앰배서더 서울         영등포구 여의대로 108
-   9: [37.570723, 127.007017],  // JW 메리어트 동대문 스퀘어      종로구 청계천로 279
-  10: [37.513029, 127.101844],  // 소피텔 앰배서더 서울           송파구 잠실로 209
-  11: [37.529854, 126.965384],  // 나인트리 프리미어 로카우스      용산구 한강대로23길 25
-  12: [37.548897, 126.952762],  // 롯데시티호텔 마포              마포구 마포대로 133
-  13: [37.557183, 127.005117],  // 서울신라호텔                   중구 동호로 249
+   7: [37.508601, 127.064145],  // 파크 하얏트 서울               강남구 테헤란로 606
+   8: [37.525186, 126.929115],  // 페어몬트 앰배서더 서울         영등포구 여의대로 108
+   9: [37.570263, 127.008822],  // JW 메리어트 동대문 스퀘어      종로구 청계천로 279
+  10: [37.513705, 127.106411],  // 소피텔 앰배서더 서울           송파구 잠실로 209
+  11: [37.527492, 126.964345],  // 나인트리 프리미어 로카우스      용산구 한강대로23길 25
+  12: [37.544586, 126.950521],  // 롯데시티호텔 마포              마포구 마포대로 133
+  13: [37.555822, 127.005142],  // 서울신라호텔                   중구 동호로 249
   14: [37.564790, 126.979825],  // 웨스틴 조선 서울               중구 소공로 106
-  15: [37.556769, 127.006424],  // 반얀트리 클럽 앤 스파 서울     중구 장충단로 60
-  16: [37.526527, 127.031654],  // 안다즈 서울 강남               강남구 논현로 854
+  15: [37.550694, 127.000850],  // 반얀트리 클럽 앤 스파 서울     중구 장충단로 60
+  16: [37.525535, 127.028909],  // 안다즈 서울 강남               강남구 논현로 854
   17: [37.511048, 127.098656],  // 롯데호텔 월드                  송파구 올림픽로 240
-  18: [37.566262, 127.007825],  // 노보텔 앰배서더 서울 동대문    중구 을지로 238
+  18: [37.566343, 127.004466],  // 노보텔 앰배서더 서울 동대문    중구 을지로 238
   19: [37.504267, 127.004994],  // JW 메리어트 호텔 서울          서초구 신반포로 176
-  20: [37.504872, 127.048803],  // 조선 팰리스 서울 강남          강남구 테헤란로 231
-  21: [37.555224, 127.009985],  // 앰배서더 서울 풀만             중구 장충단로 287
-  22: [37.535104, 126.993902],  // 몬드리안 서울 이태원           용산구 장문로 23
-  23: [37.524340, 126.924682],  // 글래드 호텔 여의도             영등포구 국제금융로8길 16
-  24: [37.509424, 127.062285],  // 신라스테이 삼성                강남구 영동대로 506
+  20: [37.502879, 127.041113],  // 조선 팰리스 서울 강남          강남구 테헤란로 231
+  21: [37.560211, 127.002266],  // 앰배서더 서울 풀만             중구 장충단로 287 (5성)
+  22: [37.528503, 126.993085],  // 몬드리안 서울 이태원           용산구 장문로 23 (5성)
+  23: [37.527473, 126.917305],  // 글래드 호텔 여의도             영등포구 국제금융로8길 16
+  24: [37.509894, 127.063190],  // 신라스테이 삼성                강남구 영동대로 506
   25: [37.511365, 127.057830],  // 오크우드 프리미어 코엑스 센터  강남구 봉은사로 503
-  26: [37.527156, 126.965447],  // 노보텔 앰배서더 서울 용산      용산구 한강대로 95
-  27: [37.562744, 126.985531],  // 이비스 앰배서더 서울 명동      중구 명동8가길 14
-  28: [37.574213, 126.985392],  // 나인트리 프리미어 인사동       종로구 인사동7길 12
-  29: [37.497055, 127.047713],  // 이비스 스타일 앰배서더 강남    강남구 역삼로 625
-  30: [37.558854, 126.982031],  // 레스케이프 호텔                중구 퇴계로 67
+  26: [37.531917, 126.962165],  // 서울드래곤시티                 용산구 한강대로 95 (컨벤션)
+  27: [37.561672, 126.989370],  // 이비스스타일 앰배서더 명동     중구 명동8가길 14
+  28: [37.574451, 126.983453],  // 나인트리 바이 파르나스 인사동  종로구 인사동7길 12
+  29: [37.505088, 127.057104],  // 이비스 스타일 앰배서더 강남    강남구 역삼로 625
+  30: [37.560120, 126.979449],  // 레스케이프 호텔                중구 퇴계로 67 (4성)
+  31: [37.512794, 127.057107],  // 웨스틴 서울 파르나스           강남구 봉은사로 524 (신규)
   99: [37.497900, 127.027630],  // [TEST]
 };
 
@@ -1564,7 +1583,7 @@ function showNaverPopup(id){
     <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14.5px;
       font-weight:600;color:#18160f;margin-bottom:2px;padding-right:16px;line-height:1.3">
       ${ko?h.name:h.nameEn}</div>
-    <div style="color:#b8923a;font-size:10px;margin-bottom:7px">${'★'.repeat(h.star)} ${h.star}${ko?'성급':'-Star'}</div>
+    <div style="color:#b8923a;font-size:10px;margin-bottom:7px">${h.star===0?'CONVENTION':`${'★'.repeat(h.star)} ${h.star}${ko?'성급':'-Star'}`}</div>
     <div style="font-size:11px;color:#3a3728;margin-bottom:3px">${ko?h.addr:h.addrEn}</div>
     <div style="font-size:11px;color:#3a3728;margin-bottom:3px">🚇 ${ko?h.metro:h.metroEn}</div>
     <div style="font-size:11px;color:#3a3728;margin-bottom:9px">👥 ${ko?'최대 '+h.maxCap.toLocaleString()+'명':'Up to '+h.maxCap.toLocaleString()}</div>
@@ -1654,14 +1673,14 @@ function openDetail(id){
         <button class="d-cls" onclick="closeOvl()">✕</button>
         <div class="d-ej" style="width:64px;height:64px;border-radius:12px;overflow:hidden;margin-bottom:10px">${starBadge(h.star)}</div>
         <div class="d-nm">${ko?h.name:h.nameEn}</div>
-        <div class="d-st">${stars} ${h.star}${ko?'성급':'-Star Hotel'}</div>
+        <div class="d-st">${h.star===0?'CONVENTION':stars+' '+h.star+(ko?'성급':'-Star Hotel')}</div>
         <div class="d-loc">${ko?h.addr:h.addrEn} <span>|</span> ${ko?h.metro:h.metroEn}</div>
       </div>
       <div class="d-body">
         <div class="d-stats">
           <div class="d-stat"><div class="d-si">👥</div><div class="d-sl">${ko?'최대 수용':'Max Capacity'}</div><div class="d-sv">${h.maxCap.toLocaleString()}${ko?'명':''}</div></div>
           
-          <div class="d-stat"><div class="d-si">🏨</div><div class="d-sl">${ko?'등급':'Grade'}</div><div class="d-sv">${'★'.repeat(h.star)}</div></div>
+          <div class="d-stat"><div class="d-si">🏨</div><div class="d-sl">${ko?'등급':'Grade'}</div><div class="d-sv">${h.star===0?'컨벤션':'★'.repeat(h.star)}</div></div>
         </div>
 
         <div style="margin-bottom:9px"><span class="d-sec">${ko?'연회장 목록':'Venue Spaces'}</span></div>
@@ -1855,10 +1874,11 @@ function openVenueRegister(){
       }</div>
 
       <div style="background:#faf8f2;border:1px solid #e8e0cd;border-radius:10px;padding:13px 14px;margin-bottom:16px;font-size:12px;color:#5a5344;line-height:1.7">
-        <div style="font-weight:700;color:#18160f;margin-bottom:4px;font-size:13px">📋 ${ko?'등록 혜택':'Benefits'}</div>
-        <div>· ${ko?'STANDARD 무료 등록 (기본 정보 노출)':'STANDARD listing — Free'}</div>
-        <div>· ${ko?'FEATURED 월 20만원 (상단 노출 + 배지)':'FEATURED badge — ₩200K/mo'}</div>
-        <div>· ${ko?'PREMIER 월 50만원 (최상단 + 전용 배너)':'PREMIER placement — ₩500K/mo'}</div>
+        <div style="font-weight:700;color:#18160f;margin-bottom:4px;font-size:13px">📋 ${ko?'등록 안내':'Listing Guide'}</div>
+        <div>· ${ko?'기본 정보 등록은 <strong style="color:#18160f">무료</strong>입니다':'Basic venue listing is <strong style="color:#18160f">free of charge</strong>'}</div>
+        <div style="margin-top:6px;padding-top:6px;border-top:1px solid #e8e0cd;color:#8a7b6a">
+          ${ko?'📣 연회장 홍보 · 행사 광고 · 상단 노출 등<br>프리미엄 서비스는 기간·내용에 따라 별도 견적 안내':'📣 Premium features (promotions, featured listings, event ads) are available — pricing varies by period and scope. Please inquire.'}
+        </div>
       </div>
 
       <div class="form-row">
@@ -1886,12 +1906,12 @@ function openVenueRegister(){
         </div>
       </div>
       <div class="form-row">
-        <label class="form-label">${ko?'관심 플랜':'Interested Plan'}</label>
+        <label class="form-label">${ko?'관심 서비스':'Service Type'}</label>
         <select class="form-sel" id="vr-plan">
           <option value="">${ko?'선택':'Select'}</option>
-          <option value="standard">${ko?'STANDARD — 무료 등록':'STANDARD — Free listing'}</option>
-          <option value="featured">${ko?'FEATURED — 월 20만원':'FEATURED — ₩200K/mo'}</option>
-          <option value="premier">${ko?'PREMIER — 월 50만원':'PREMIER — ₩500K/mo'}</option>
+          <option value="standard">${ko?'STANDARD — 기본 무료 등록':'STANDARD — Free basic listing'}</option>
+          <option value="featured">${ko?'FEATURED — 홍보·상단 노출 (견적 문의)':'FEATURED — Promotion & placement (inquiry)'}</option>
+          <option value="premier">${ko?'PREMIER — 행사·광고 패키지 (견적 문의)':'PREMIER — Event & ad package (inquiry)'}</option>
         </select>
       </div>
       <div class="form-row">
